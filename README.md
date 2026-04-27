@@ -1,7 +1,7 @@
 # Project Group: 15
 
 ## UI Design
-Figma file: https://www.figma.com/design/4wBdgt4F4YNmqjhtmbFFzb/Lost-and-Found-System?node-id=0-1&t=vwWMAwVV9ZEnGrp8-1
+Figma file: [Lost and Found System UI](https://www.figma.com/design/4wBdgt4F4YNmqjhtmbFFzb/Lost-and-Found-System?node-id=0-1&t=vwWMAwVV9ZEnGrp8-1)
 
 <details>
   <summary><strong>Public Pages</strong></summary>
