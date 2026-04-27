@@ -1,7 +1,6 @@
 # Project Group: 15
 
 ## UI Design
-Figma file: [Lost and Found System UI](https://www.figma.com/design/4wBdgt4F4YNmqjhtmbFFzb/Lost-and-Found-System?node-id=0-1&t=vwWMAwVV9ZEnGrp8-1)
 
 <details>
   <summary><strong>Public Pages</strong></summary>
@@ -39,6 +38,8 @@ Figma file: [Lost and Found System UI](https://www.figma.com/design/4wBdgt4F4YNm
   <img src="designs/ui/admin/Group%2016.png" width="600"/>
 
 </details>
+
+Figma file: [Lost and Found System UI](https://www.figma.com/design/4wBdgt4F4YNmqjhtmbFFzb/Lost-and-Found-System?node-id=0-1&t=vwWMAwVV9ZEnGrp8-1)
 
 ## Database Design
 ![ER Diagram](designs/db/Lost-And-Found-ERD.drawio.svg)
