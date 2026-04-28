@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Claim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        nwu: {
+                            purple: 'rgb(108, 61, 145)',
+                            turq: 'rgb(0, 136, 156)',
+                            grey: 'rgb(120, 132, 142)',
+                            black: 'rgb(24, 21, 18)',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.05)',
+                        'modern': '0 4px 20px -2px rgba(108, 61, 145, 0.08)',
+                        'modern-hover': '0 12px 30px -4px rgba(108, 61, 145, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-[#fcfcfd] text-nwu-black font-sans antialiased min-h-screen flex flex-col selection:bg-nwu-purple selection:text-white">
+
+    <header class="bg-white border-b border-gray-100 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png"
+                    alt="North-West University Logo" class="w-20 h-auto mb-2" />
+                <div class="border-l border-gray-200 pl-4 text-left">
+                    <h1 class="text-lg font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services
+                    </h1>
+                    <span class="text-xs font-bold text-nwu-grey mt-1 capitalize tracking-widest block">Staff
+                        Portal</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-nwu-black tracking-tight">T Motebejane</p>
+                    <p class="text-xs font-medium text-nwu-turq">Mahikeng Campus</p>
+                </div>
+                <a href="#" class="ml-4 text-nwu-grey hover:text-red-500 transition-colors p-2" title="Logout">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-nwu-purple text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-center items-center h-12 overflow-x-auto hide-scrollbar">
+            <div class="flex gap-8 text-xs font-bold tracking-widest capitalize whitespace-nowrap">
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Dashboard</a>
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Log New Item</a>
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Inventory</a>
+                <a href="#"
+                    class="text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq transition-colors">Claim
+                    Records</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-4xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
+
+        <div class="flex flex-col gap-2">
+            <a href="#"
+                class="text-sm font-bold text-nwu-grey hover:text-nwu-purple transition-colors flex items-center gap-1 w-max">
+                Back to Claim Records
+            </a>
+        </div>
+
+        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+
+            <div class="space-y-4">
+                <h4
+                    class="text-[10px] font-black text-nwu-purple capitalize tracking-widest border-b border-gray-100 pb-2">
+                    Claim Information</h4>
+                <dl class="space-y-3">
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Claim Number </dt>
+                        <dd class="text-sm font-semibold text-nwu-black">CLM-9021</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Date of Claim </dt>
+                        <dd class="text-sm font-semibold text-nwu-black">Apr 25, 2026, 04:30 PM</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Processed By </dt>
+                        <dd class="text-sm font-semibold text-nwu-black">Toko Motebejane (43403638)</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="space-y-4">
+                <h4
+                    class="text-[10px] font-black text-nwu-turq capitalize tracking-widest border-b border-gray-100 pb-2">
+                    Item Information</h4>
+                <dl class="space-y-3">
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Item Number</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">ITM-8922</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Item Description</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">Brown Leather Wallet</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Category</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">Personal</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="space-y-4 md:col-span-2 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 mt-4">
+                <h4
+                    class="text-[10px] font-black text-nwu-black capitalize tracking-widest border-b border-gray-200 pb-2">
+                    Claimant Details</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Claimant ID</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">54169178</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Full Nam</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">Asonele Ralasi</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Email Address</dt>
+                        <dd class="text-sm font-semibold text-nwu-purple"><a href="mailto:39248812@mynwu.ac.za"
+                                class="hover:underline">54169178@mynwu.ac.za</a></dd>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

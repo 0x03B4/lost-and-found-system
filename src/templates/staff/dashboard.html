@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        nwu: {
+                            purple: 'rgb(108, 61, 145)',
+                            turq: 'rgb(0, 136, 156)',
+                            grey: 'rgb(120, 132, 142)',
+                            black: 'rgb(24, 21, 18)',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.05)',
+                        'modern': '0 4px 20px -2px rgba(108, 61, 145, 0.08)',
+                        'modern-hover': '0 12px 30px -4px rgba(108, 61, 145, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-[#fcfcfd] text-nwu-black font-sans antialiased min-h-screen flex flex-col selection:bg-nwu-purple selection:text-white">
+
+    <header class="bg-white border-b border-gray-100 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png"
+                    alt="North-West University Logo" class="w-20 h-auto mb-2" />
+                <div class="border-l border-gray-200 pl-4 text-left">
+                    <h1 class="text-lg font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services
+                    </h1>
+                    <span class="text-xs font-bold text-nwu-grey mt-1 capitalize tracking-widest block">Staff
+                        Portal</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-nwu-black tracking-tight">T Motebejane</p>
+                    <p class="text-xs font-medium text-nwu-turq">Mahikeng Campus</p>
+                </div>
+                <a href="#" class="ml-4 text-nwu-grey hover:text-red-500 transition-colors p-2" title="Logout">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-nwu-purple text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-center items-center h-12 overflow-x-auto hide-scrollbar">
+            <div class="flex gap-8 text-xs font-bold tracking-widest capitalize whitespace-nowrap">
+                <a href="#"
+                    class="text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq transition-colors">Dashboard</a>
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Log New Item</a>
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Inventory</a>
+                <a href="#" class="text-white/60 hover:text-white transition-colors">Claim Records</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h2 class="text-2xl font-extrabold text-nwu-black tracking-tight">Overview</h2>
+            </div>
+            <button
+                class="bg-nwu-turq hover:bg-[#007080] text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-nwu-turq/20 transition-all flex items-center gap-2 text-sm tracking-wide">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Log New Item
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300 relative overflow-hidden">
+                <h3 class="text-4xl font-black text-nwu-black mb-1">12</h3>
+                <p class="text-xs font-bold text-nwu-grey uppercase tracking-widest">Items Logged Today</p>
+            </div>
+
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300 relative overflow-hidden">
+                <h3 class="text-4xl font-black text-nwu-black mb-1">5</h3>
+                <p class="text-xs font-bold text-nwu-grey uppercase tracking-widest">Claims Processed</p>
+            </div>
+
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300 relative overflow-hidden">
+                <h3 class="text-4xl font-black text-nwu-black mb-1">342</h3>
+                <p class="text-xs font-bold text-nwu-grey uppercase tracking-widest">Total Items In Storage</p>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="font-extrabold text-lg text-nwu-black tracking-tight">Recent Inventory Activity</h3>
+                <a href="#" class="text-xs font-bold text-nwu-purple hover:underline tracking-wide">View Full
+                    Inventory</a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                        class="bg-white border-b border-gray-100 text-xs font-bold text-nwu-grey uppercase tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Item Details</th>
+                            <th class="px-6 py-4">Category</th>
+                            <th class="px-6 py-4">Date Updated</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <p class="font-bold text-nwu-black">Silver Laptop (MacBook)</p>
+                                        <p class="text-[11px] font-medium text-nwu-grey">ID: ITM-8924</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">Electronics</td>
+                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 26, 2026, 09:45 AM</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">In Storage</td>
+                            <td class="px-6 py-4 text-right space-x-3">
+                                <button class="text-nwu-purple font-bold text-xs hover:underline">Edit</button>
+                                <button class="text-nwu-turq font-bold text-xs hover:underline">Claim</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <p class="font-bold text-nwu-black">Student Card (3924****)</p>
+                                        <p class="text-[11px] font-medium text-nwu-grey">ID: ITM-8923</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">Student Card</td>
+                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 26, 2026, 08:12 AM</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">In Storage</td>
+                            <td class="px-6 py-4 text-right space-x-3">
+                                <button class="text-nwu-purple font-bold text-xs hover:underline">Edit</button>
+                                <button class="text-nwu-turq font-bold text-xs hover:underline">Claim</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <p class="font-bold text-nwu-black">Brown Leather Wallet</p>
+                                        <p class="text-[11px] font-medium text-nwu-grey">ID: ITM-8922</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">Personal</td>
+                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 25, 2026, 04:30 PM</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">Claimed</td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
