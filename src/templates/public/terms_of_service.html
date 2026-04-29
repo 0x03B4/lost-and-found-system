@@ -1,0 +1,100 @@
+{% extends 'public/public_base.html' %}
+
+
+
+{% block title %}
+    terms of service
+{% endblock title %}
+    
+
+
+{% block content %}
+    
+    <section class="bg-white border-b border-gray-100 py-12 lg:py-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 text-center">
+            <h2 class="text-4xl lg:text-5xl font-extrabold text-nwu-black tracking-tight">Terms of Service</h2>
+        </div>
+    </section>
+
+    <div class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-12 lg:py-20 w-full">
+        <main class="max-w-4xl mx-auto space-y-8 text-center md:text-left">
+
+            <section class="bg-white border border-gray-100 p-10 rounded-3xl shadow-soft">
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <span
+                        class="text-nwu-purple font-black text-xl bg-nwu-purple/5 w-10 h-10 flex items-center justify-center rounded-lg">01</span>
+                    <h3 class="text-2xl font-extrabold text-nwu-black tracking-tight">System Usage</h3>
+                </div>
+                <p class="text-lg text-nwu-grey leading-relaxed">
+                    By accessing the NWU Lost and Found System, you agree to use the platform solely for identifying
+                    lost items. External users are granted read-only access
+                </p>
+            </section>
+
+            <section class="bg-white border border-gray-100 p-10 rounded-3xl shadow-soft">
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <span
+                        class="text-nwu-purple font-black text-xl bg-nwu-purple/5 w-10 h-10 flex items-center justify-center rounded-lg">02</span>
+                    <h3 class="text-2xl font-extrabold text-nwu-black tracking-tight">Accuracy of Information</h3>
+                </div>
+                <p class="text-nwu-grey leading-relaxed mb-6">
+                    While Protection Services strives for accuracy, the digital record serves as a general guide only.
+                    Descriptions are generic by design to maintain security. The physical item held at the Protection
+                    Services office is the final record.
+                </p>
+            </section>
+
+            <section class="bg-white border border-gray-100 p-10 rounded-3xl shadow-soft">
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <span
+                        class="text-nwu-purple font-black text-xl bg-nwu-purple/5 w-10 h-10 flex items-center justify-center rounded-lg">03</span>
+                    <h3 class="text-2xl font-extrabold text-nwu-black tracking-tight">Physical Collection Only</h3>
+                </div>
+                <p class="text-nwu-grey leading-relaxed mb-8">This system does not facilitate digital claims. All items
+                    must be collected in person at the respective campus locations:</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        <p class="font-bold text-nwu-black">Mahikeng</p>
+                        <p class="text-sm text-nwu-purple">Building A16</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        <p class="font-bold text-nwu-black">Potchefstroom</p>
+                        <p class="text-sm text-nwu-purple">Building F17</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        <p class="font-bold text-nwu-black">Vanderbijlpark</p>
+                        <p class="text-sm text-nwu-purple">Building F11</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white border border-gray-100 p-10 rounded-3xl shadow-soft">
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <span
+                        class="text-nwu-purple font-black text-xl bg-nwu-purple/5 w-10 h-10 flex items-center justify-center rounded-lg">04</span>
+                    <h3 class="text-2xl font-extrabold text-nwu-black tracking-tight">Verification Rights</h3>
+                </div>
+                <p class="text-nwu-grey leading-relaxed">
+                    Protection Services reserves the right to refuse the release of any item if the claimant cannot
+                    provide sufficient proof of ownership. NWU is not liable for items that remain unclaimed or are
+                    disposed of according to university policy.
+                </p>
+            </section>
+
+            <section class="bg-white border border-gray-100 p-10 rounded-3xl shadow-soft">
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <span
+                        class="text-nwu-purple font-black text-xl bg-nwu-purple/5 w-10 h-10 flex items-center justify-center rounded-lg">05</span>
+                    <h3 class="text-2xl font-extrabold text-nwu-black tracking-tight">Role Limitations</h3>
+                </div>
+                <p class="text-nwu-grey leading-relaxed">
+                    Only authorized Protection Services staff are permitted to input, edit or delete item records.
+                    External users cannot claim lost items directly through this system.
+                </p>
+            </section>
+
+        </main>
+    </div>
+
+{% endblock content %}
+    
