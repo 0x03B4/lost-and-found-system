@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NWU Lost and Found System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        nwu: {
+                            purple: 'rgb(108, 61, 145)', 
+                            turq: 'rgb(0, 136, 156)',    
+                            grey: 'rgb(120, 132, 142)',  
+                            black: 'rgb(24, 21, 18)',    
+                        }
+                    },
+                    boxShadow: {
+                        'modern': '0 4px 20px -2px rgba(108, 61, 145, 0.08)',
+                        'modern-hover': '0 12px 30px -4px rgba(108, 61, 145, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#fcfcfd] text-nwu-black font-sans antialiased flex flex-col min-h-screen selection:bg-nwu-purple selection:text-white">
+
+    <header class="bg-white border-b border-gray-100 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                    <img 
+            src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" 
+            alt="North-West University Logo"
+            class="w-24 h-auto mb-6"
+        />                <div class="border-l border-gray-200 pl-5 text-left">
+                    <h1 class="text-xl font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services</h1>
+                    <span class="text-sm font-medium text-nwu-grey mt-1 block">Lost and Found System</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:block">
+                <a href="#" class="inline-flex items-center gap-2 bg-white border border-gray-200 text-nwu-black px-5 py-2.5 rounded-full text-sm font-semibold hover:border-nwu-purple hover:text-nwu-purple transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Staff Portal
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-gradient-to-r from-nwu-purple to-[#5a327a] text-white shadow-md relative z-10">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 flex justify-center items-center h-14 text-center">
+            <div class="flex gap-8 text-sm font-semibold tracking-wide">
+                <a href="#" class="text-white/90 hover:text-white transition-colors">Home</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Search Items</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden bg-white border-b border-gray-100">
+        <div class="absolute inset-0 z-0 opacity-[0.3]" style="background-image: radial-gradient(rgb(120, 132, 142) 1px, transparent 1px); background-size: 32px 32px;"></div>
+        
+        <div class="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-gradient-to-br from-nwu-purple/[0.06] to-nwu-turq/[0.06] rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-6 sm:px-10 relative z-10 text-center">
+            <h2 class="text-5xl lg:text-7xl font-extrabold text-nwu-black tracking-tight mb-6 leading-[1.1]">
+                Recover your <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-nwu-purple to-nwu-turq">lost items.</span>
+            </h2>
+            
+            <p class="text-xl text-nwu-grey mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                The official Protection Services digital record. Check if your belongings have been safely found at the Mahikeng, Potchefstroom, or Vanderbijlpark campuses.
+            </p>
+            
+            <div class="flex justify-center">
+                <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center bg-white text-nwu-black border-2 border-gray-200 font-bold text-lg px-10 py-4 rounded-full hover:border-nwu-turq hover:text-nwu-turq transition-all duration-200 group">
+                    Search Items
+                    <svg class="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-20 w-full relative text-center">
+        <div class="mb-12">
+            <h3 class="text-3xl font-extrabold text-nwu-black tracking-tight">How to claim your item</h3>
+            <p class="text-nwu-grey mt-2 text-base">Follow these three steps to get your belongings back.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-modern hover:shadow-modern-hover transition-all duration-300 group">
+                <div class="mx-auto bg-nwu-purple/10 text-nwu-purple w-14 h-14 flex items-center justify-center rounded-2xl mb-6 font-bold text-xl group-hover:bg-nwu-purple group-hover:text-white transition-all">1</div>
+                <h4 class="text-xl font-bold text-nwu-black mb-3">Check Online</h4>
+                <p class="text-base text-nwu-grey leading-relaxed">Search the list to see if Protection Services has an item that looks like yours. We hide private details to keep things safe.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-modern hover:shadow-modern-hover transition-all duration-300 group">
+                <div class="mx-auto bg-nwu-turq/10 text-nwu-turq w-14 h-14 flex items-center justify-center rounded-2xl mb-6 font-bold text-xl group-hover:bg-nwu-turq group-hover:text-white transition-all">2</div>
+                <h4 class="text-xl font-bold text-nwu-black mb-3">Visit the Office</h4>
+                <p class="text-base text-nwu-grey leading-relaxed">If you find your item online, go to the specific campus building where it is stored. You cannot claim items through this website.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-modern hover:shadow-modern-hover transition-all duration-300 group">
+                <div class="mx-auto bg-gray-100 text-nwu-black w-14 h-14 flex items-center justify-center rounded-2xl mb-6 font-bold text-xl group-hover:bg-nwu-black group-hover:text-white transition-all">3</div>
+                <h4 class="text-xl font-bold text-nwu-black mb-3">Verify in Person</h4>
+                <p class="text-base text-nwu-grey leading-relaxed">Show proof that the item is yours to the security staff at the desk. Once they verify it, they will return it to you.</p>
+            </div>
+        </div>
+
+        <div class="mb-10 text-center">
+            <h3 class="text-3xl font-extrabold text-nwu-black tracking-tight">Collection Points</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-5 hover:border-nwu-purple/30 transition-all group">
+                <div class="bg-nwu-purple/5 p-4 rounded-xl text-nwu-purple group-hover:bg-nwu-purple group-hover:text-white transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-nwu-black text-lg">Mahikeng</h4>
+                    <p class="text-sm font-medium text-nwu-purple mt-1 tracking-wide">Building A16</p>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-5 hover:border-nwu-turq/30 transition-all group">
+                <div class="bg-nwu-turq/5 p-4 rounded-xl text-nwu-turq group-hover:bg-nwu-turq group-hover:text-white transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-nwu-black text-lg">Potchefstroom</h4>
+                    <p class="text-sm font-medium text-nwu-purple mt-1 tracking-wide">Building F17</p>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-5 hover:border-nwu-black/30 transition-all group">
+                <div class="bg-nwu-black/5 p-4 rounded-xl text-nwu-black group-hover:bg-nwu-black group-hover:text-white transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-nwu-black text-lg">Vanderbijlpark</h4>
+                    <p class="text-sm font-medium text-nwu-purple mt-1 tracking-wide">Building F11</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-nwu-purple text-white mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-8 py-16 flex flex-col items-center text-center">
+                    <img 
+            src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" 
+            alt="North-West University Logo"
+            class="w-24 h-auto mb-6"
+        />
+            <h4 class="font-extrabold text-2xl tracking-tight">North-West University</h4>
+            <p class="text-white/70 font-medium mt-1 mb-8">Protection Services</p>
+            <div class="text-center text-sm font-medium text-white/50 tracking-wide">
+                <p>&copy; 2026 North-West University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

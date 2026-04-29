@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        nwu: {
+                            purple: 'rgb(108, 61, 145)',
+                            turq: 'rgb(0, 136, 156)',
+                            grey: 'rgb(120, 132, 142)',
+                            black: 'rgb(24, 21, 18)',
+                        }
+                    },
+                    boxShadow: { 'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.05)' }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-[#fcfcfd] text-nwu-black font-sans antialiased min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-gray-100 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png"
+                    alt="North-West University Logo" class="w-24 h-auto mb-6" />
+                <div class="border-l border-gray-200 pl-5 text-left">
+                    <h1 class="text-xl font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services
+                    </h1>
+                    <span class="text-sm font-medium text-nwu-grey mt-1 block">Lost and Found System</span>
+                </div>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-white border border-gray-200 text-nwu-black px-5 py-2.5 rounded-full text-sm font-semibold hover:border-nwu-purple hover:text-nwu-purple transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    Staff Portal
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-gradient-to-r from-nwu-purple to-[#5a327a] text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-center items-center h-12">
+            <div class="flex gap-8 text-xs font-bold tracking-widest uppercase">
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Home</a>
+                <a href="#"
+                    class="text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-white transition-colors">Search
+                    Items</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Terms</a>
+                <a href="#" class="text-white/70 hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
+
+        <aside class="lg:col-span-3 space-y-6">
+            <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-extrabold text-lg tracking-tight capitalize">Filters</h3>
+                    <button class="text-xs font-bold text-nwu-turq hover:underline capitalize">Reset</button>
+                </div>
+
+                <div class="space-y-8">
+                    <div>
+                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Search
+                            Item</label>
+                        <input type="text" placeholder="e.g. iPhone, Keys..."
+                            class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq transition-colors">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Campus
+                            Location</label>
+                        <div class="space-y-3">
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Mahikeng</span></label>
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Potchefstroom</span></label>
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Vanderbijlpark</span></label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Category</label>
+                        <div class="space-y-3">
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Electronics</span></label>
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Student Cards</span></label>
+                            <label
+                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
+                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
+                                    class="group-hover:text-nwu-black">Personal Items</span></label>
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full bg-nwu-turq text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-turq/20 hover:bg-[#007080] transition-all uppercase text-xs tracking-widest">Apply
+                        Filters</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="lg:col-span-9">
+            <div class="flex justify-between items-center mb-8">
+                <p class="text-sm text-nwu-grey font-medium tracking-tight">Displaying <span
+                        class="text-nwu-black font-bold text-base">6</span> of 248 items</p>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-nwu-grey uppercase tracking-wider">Sort:</span>
+                    <select class="bg-transparent text-sm font-bold text-nwu-black focus:outline-none cursor-pointer">
+                        <option>Newest First</option>
+                        <option>Oldest First</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+                            <span
+                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Electronics</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Silver Laptop (MacBook)</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+                            <span
+                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-nwu-purple text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Student card</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Student Card (3924****)</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Mahikeng</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+                            <span
+                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-gray-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Personal</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Black Nike Backpack</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+                            <span
+                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Electronics</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Graphing Calculator</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+                            <span
+                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-gray-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Personal</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Car Keys (Toyota)</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Mahikeng</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center text-center px-4">
+                            <span class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest">Masked
+                                Image</span>
+                        </div>
+                        <div
+                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                            Documents</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Leather Wallet</h4>
+                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 flex justify-center items-center gap-4">
+                <button class="p-2 border border-gray-200 rounded-full hover:bg-gray-50 disabled:opacity-30" disabled>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+                <span class="text-sm font-bold text-nwu-black tracking-tight">Page 1 of 42</span>
+                <button class="p-2 border border-gray-200 rounded-full hover:bg-gray-50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-nwu-purple text-white mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-8 py-16 flex flex-col items-center text-center">
+            <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" alt="North-West University Logo"
+                class="w-24 h-auto mb-6" />
+            <h4 class="font-extrabold text-2xl tracking-tight">North-West University</h4>
+            <p class="text-white/70 font-medium mt-1 mb-8">Protection Services</p>
+            <div class="text-center text-sm font-medium text-white/50 tracking-wide">
+                <p>&copy; 2026 North-West University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
