@@ -1,1 +1,54 @@
+{% extends "base.html" %}
 
+{% block navbar %}
+    <header class="bg-white border-b border-gray-100 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 py-5 flex justify-between items-center">
+            <a href="{{ url_for('home') }}" class="flex items-center gap-5">
+                    <img 
+            src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" 
+            alt="North-West University Logo"
+            class="w-24 h-auto mb-6"
+        />                <div class="border-l border-gray-200 pl-5 text-left">
+                    <h1 class="text-xl font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services</h1>
+                    <span class="text-sm font-medium text-nwu-grey mt-1 block">Lost and Found System</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:block">
+                <a href="{{ url_for('login') }}" class="inline-flex items-center gap-2 bg-white border border-gray-200 text-nwu-black px-5 py-2.5 rounded-full text-sm font-semibold hover:border-nwu-purple hover:text-nwu-purple transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Staff Portal
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="bg-gradient-to-r from-nwu-purple to-[#5a327a] text-white shadow-md relative z-10">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 flex justify-center items-center h-14 text-center">
+            <div class="flex gap-8 text-sm font-semibold tracking-wide">
+                <a href="{{ url_for('home') }}" class="text-white/70 hover:text-white transition-colors">Home</a>
+                <a href="{{ url_for('search') }}" class="text-white/70 hover:text-white transition-colors">Search Items</a>
+                <a href="{{ url_for('privacy') }}" class="text-white/70 hover:text-white transition-colors">Privacy</a>
+                <a href="{{ url_for('terms') }}" class="text-white/70 hover:text-white transition-colors">Terms of Service</a>
+                <a href="{{ url_for('contact') }}" class="text-white/70 hover:text-white transition-colors">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block footer %}
+    <footer class="bg-nwu-purple text-white mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-8 py-16 flex flex-col items-center text-center">
+                    <img 
+            src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" 
+            alt="North-West University Logo"
+            class="w-24 h-auto mb-6"
+        />
+            <h4 class="font-extrabold text-2xl tracking-tight">North-West University</h4>
+            <p class="text-white/70 font-medium mt-1 mb-8">Protection Services</p>
+            <div class="text-center text-sm font-medium text-white/50 tracking-wide">
+                <p>&copy; 2026 North-West University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
