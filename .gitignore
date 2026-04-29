@@ -135,7 +135,6 @@ logs/
 Thumbs.db
 
 # SQL / database dumps
-*.sql
 *.dump
 *.backup
 
