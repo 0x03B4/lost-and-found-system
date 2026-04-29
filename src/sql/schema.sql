@@ -1,5 +1,5 @@
 CREATE TABLE category (
-    category_id INTEGER PRIMARY KEY,
+    category_id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     category_name VARCHAR(30) UNIQUE NOT NULL
 );
 
@@ -8,7 +8,7 @@ CREATE TABLE campus (
     campus_name VARCHAR(15) UNIQUE NOT NULL,
 
     CONSTRAINT ck_campus_id_limit
-        CHECK (campus_id IN ('MAF', 'POT', 'VAN'))
+        CHECK (UPPER(campus_id) IN ('MAF', 'POT', 'VAN'))
 );
 
 CREATE TABLE building (
@@ -27,7 +27,7 @@ CREATE TABLE role (
     role_name VARCHAR(30) UNIQUE NOT NULL,
 
     CONSTRAINT ck_role_id_limit
-        CHECK (role_id IN ('ADMIN', 'STAFF'))
+        CHECK (UPPER(role_id) IN ('ADMIN', 'STAFF'))
 );
 
 CREATE TABLE staff_member (
@@ -47,18 +47,18 @@ CREATE TABLE staff_member (
 );
 
 CREATE TABLE found_item (
-    item_num INTEGER PRIMARY KEY,
+    item_num BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     item_name TEXT NOT NULL,
     item_description TEXT NOT NULL,
     item_date_received TIMESTAMPTZ NOT NULL,
     item_status TEXT NOT NULL,
     item_image_url TEXT,
-    category_id INTEGER NOT NULL,
+    category_id SMALLINT NOT NULL,
     staff_num INTEGER NOT NULL,
     campus_id VARCHAR(3) NOT NULL,
 
     CONSTRAINT ck_found_item_status
-        CHECK (item_status IN ('in storage', 'disposed', 'claimed')),
+        CHECK (LOWER(item_status) IN ('in storage', 'disposed', 'claimed')),
     CONSTRAINT fk_found_item_category
         FOREIGN KEY (category_id) REFERENCES category(category_id),
     CONSTRAINT fk_found_item_staff_member
@@ -79,9 +79,9 @@ CREATE TABLE claimant (
 );
 
 CREATE TABLE claim (
-    claim_num INTEGER PRIMARY KEY,
+    claim_num BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     claim_date TIMESTAMPTZ NOT NULL,
-    item_num INTEGER UNIQUE NOT NULL,
+    item_num BIGINT UNIQUE NOT NULL,
     staff_num INTEGER NOT NULL,
     claimant_num INTEGER NOT NULL,
 
