@@ -13,203 +13,164 @@
     <div class="max-w-7xl mx-auto px-6 py-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
 
         <aside class="lg:col-span-3 space-y-6">
-            <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
+            <form action="{{ url_for('search') }}" method="GET" class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-extrabold text-lg tracking-tight capitalize">Filters</h3>
-                    <button class="text-xs font-bold text-nwu-turq hover:underline capitalize">Reset</button>
+                    <a href="{{ url_for('reset_search') }}" class="text-xs font-bold text-nwu-turq hover:underline capitalize">Reset</a>
                 </div>
-
+            
                 <div class="space-y-8">
                     <div>
-                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Search
-                            Item</label>
+                        <label for="search_text" class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Search Item</label>
                         <input type="text" placeholder="e.g. iPhone, Keys..."
-                            class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq transition-colors">
+                            id="search_text" name="search_text"
+                            class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq transition-colors"
+                            {% if form.search_text %}
+                                value="{{ form.search_text }}"
+                            {% endif %}
+                        >
                     </div>
-
+            
                     <div>
-                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Campus
-                            Location</label>
-                        <div class="space-y-3">
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Mahikeng</span></label>
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Potchefstroom</span></label>
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-purple rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Vanderbijlpark</span></label>
+                        <label for="sort_order" class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Sort By</label>
+                        <div class="relative">
+                            <select id="sort_order" name="sort" 
+                                class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq appearance-none cursor-pointer">
+                                    {% if form.sort == "asc" %}
+                                        <option value="desc">Newest First</option>
+                                        <option value="asc" selected>Oldest First</option>
+                                    {% else %}
+                                        <option value="desc" selected>Newest First</option>
+                                        <option value="asc">Oldest First</option>
+                                    {% endif %}
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
                         </div>
                     </div>
-
+            
                     <div>
-                        <label
-                            class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Category</label>
+                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Campus Location</label>
                         <div class="space-y-3">
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Electronics</span></label>
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Student Cards</span></label>
-                            <label
-                                class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group"><input
-                                    type="checkbox" class="w-4 h-4 accent-nwu-turq rounded border-gray-300"> <span
-                                    class="group-hover:text-nwu-black">Personal Items</span></label>
+                            {% for campus in campuses %}
+                                <label class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group">
+                                    <input type="checkbox" 
+                                           name="campuses" 
+                                           value="{{ campus.campus_id }}" 
+                                           class="w-4 h-4 accent-nwu-purple rounded border-gray-300"
+                                           {% if campus.campus_id in form.campuses %}
+                                                checked
+                                           {% endif %}
+                                    > 
+                                    <span class="group-hover:text-nwu-black">{{ campus.campus_name }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
-
-                    <button
-                        class="w-full bg-nwu-turq text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-turq/20 hover:bg-[#007080] transition-all uppercase text-xs tracking-widest">Apply
-                        Filters</button>
+            
+                    <div>
+                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Category</label>
+                        <div class="space-y-3">
+                            {% for category_id, category_name in categories.items() %}
+                                <label class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group">
+                                    <input type="checkbox" 
+                                           name="categories" 
+                                           value="{{ category_id }}" 
+                                           class="w-4 h-4 accent-nwu-purple rounded border-gray-300"
+                                           {% if category_id in form.categories %}
+                                                checked
+                                           {% endif %}
+                                    > 
+                                    <span class="group-hover:text-nwu-black">{{ category_name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+            
+                    <button type="submit"
+                        class="w-full bg-nwu-turq text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-turq/20 hover:bg-[#007080] transition-all uppercase text-xs tracking-widest">
+                        Apply Filters
+                    </button>
                 </div>
-            </div>
+            </form>
         </aside>
 
         <main class="lg:col-span-9">
             <div class="flex justify-between items-center mb-8">
                 <p class="text-sm text-nwu-grey font-medium tracking-tight">Displaying <span
-                        class="text-nwu-black font-bold text-base">6</span> of 248 items</p>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-bold text-nwu-grey uppercase tracking-wider">Sort:</span>
-                    <select class="bg-transparent text-sm font-bold text-nwu-black focus:outline-none cursor-pointer">
-                        <option>Newest First</option>
-                        <option>Oldest First</option>
-                    </select>
-                </div>
+                        class="text-nwu-black font-bold text-base">{{ pagination.page_items_total }}</span> of {{ pagination.items_total }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                            <span
-                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
-                                Image</span>
+                {% if items %}
+                    {% for item in items %}
+                        <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                                <img src="{{ item.item_image_url }}" alt="{{ item.item_name }}" class="w-full h-full object-cover">
+                                <div class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
+                                    {{ categories.get(item.category_id) }}
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-lg font-extrabold text-nwu-black mb-1">{{ item.item_name }}</h4>
+                                {% if item.campus_id == "MAF" %}
+                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Mafikeng</p>
+                                {% elif item.campus_id == "VAN" %}
+                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
+                                {% elif item.campus_id == "POT" %}
+                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div
-                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Electronics</div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Silver Laptop (MacBook)</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                            <span
-                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
-                                Image</span>
+                    {% endfor %}
+                {% else %}
+                    <div class="xl:col-start-2 md:col-start-1 col-span-1 flex flex-col items-center justify-center py-20 px-6 rounded-3xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-soft mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
                         </div>
-                        <div
-                            class="absolute top-4 left-4 bg-nwu-purple text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Student card</div>
+                        <h3 class="text-xl font-extrabold text-nwu-black mb-2 text-center">No items found</h3>
                     </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Student Card (3924****)</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Mahikeng</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                            <span
-                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
-                                Image</span>
-                        </div>
-                        <div
-                            class="absolute top-4 left-4 bg-gray-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Personal</div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Black Nike Backpack</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                            <span
-                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
-                                Image</span>
-                        </div>
-                        <div
-                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Electronics</div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Graphing Calculator</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-                            <span
-                                class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest text-center">Masked
-                                Image</span>
-                        </div>
-                        <div
-                            class="absolute top-4 left-4 bg-gray-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Personal</div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Car Keys (Toyota)</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Mahikeng</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center text-center px-4">
-                            <span class="text-nwu-grey/40 font-bold text-[10px] uppercase tracking-widest">Masked
-                                Image</span>
-                        </div>
-                        <div
-                            class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                            Documents</div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg font-extrabold text-nwu-black mb-1">Leather Wallet</h4>
-                        <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
-                    </div>
-                </div>
-
+                {% endif %}
+                
             </div>
 
             <div class="mt-12 flex justify-center items-center gap-4">
-                <button class="p-2 border border-gray-200 rounded-full hover:bg-gray-50 disabled:opacity-30" disabled>
+                <a  
+                    {% if pagination.has_prev %}
+                        href="{{ pagination.current_url }}&page={{ pagination.prev_page }}"
+                    {% endif %}
+                    class="p-2 border border-gray-200 rounded-full transition-all
+                        {% if not pagination.has_prev %}
+                            opacity-30 pointer-events-none cursor-not-allowed
+                        {% else %}
+                            hover:bg-gray-50 hover:border-nwu-turq
+                        {% endif %}">
+                    
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                </button>
-                <span class="text-sm font-bold text-nwu-black tracking-tight">Page 1 of 42</span>
-                <button class="p-2 border border-gray-200 rounded-full hover:bg-gray-50">
+                </a>
+                <span class="text-sm font-bold text-nwu-black tracking-tight">Page {{ pagination.page }} of {{ pagination.total_pages }}</span>
+                <a  
+                    {% if pagination.has_next %}
+                        href="{{ pagination.current_url }}&page={{ pagination.next_page }}"
+                    {% endif %}
+                    class="p-2 border border-gray-200 rounded-full transition-all
+                        {% if not pagination.has_next %}
+                            opacity-30 pointer-events-none cursor-not-allowed
+                        {% else %}
+                            hover:bg-gray-50 hover:border-nwu-turq
+                        {% endif %}"
+                    aria-label="Next Page">
+                    
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
-                </button>
+                </a>
             </div>
         </main>
     </div>
