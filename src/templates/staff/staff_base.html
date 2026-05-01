@@ -25,10 +25,10 @@ boxShadow: {
 
         <div class="flex items-center gap-4">
             <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-nwu-black tracking-tight">Passion Tagane</p>
-                <p class="text-xs font-medium text-nwu-turq">All Campuses</p>
+                <p class="text-sm font-bold text-nwu-black tracking-tight">{{ user.staff_fname }} {{ user.staff_lname }}</p>
+                <p class="text-xs font-medium text-nwu-turq">{{ user.campuses }}</p>
             </div>
-            <a href="#" class="ml-4 text-nwu-grey hover:text-red-500 transition-colors p-2" title="Logout">
+            <a href="{{ url_for('logout') }}" class="ml-4 text-nwu-grey hover:text-red-500 transition-colors p-2" title="Logout">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">

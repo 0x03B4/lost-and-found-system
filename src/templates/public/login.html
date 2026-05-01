@@ -2,65 +2,72 @@
 
 
 {% block login %}
-    login
+login
 {% endblock login %}
-    
+
 
 
 {% block content %}
-        <main class="flex-grow flex items-center justify-center py-20 px-6 bg-slate-50/50">
-        <div class="w-full max-w-md">
-            <div class="bg-white border border-gray-100 rounded-[2.5rem] shadow-2xl p-10 md:p-12">
+<main class="flex-grow flex items-center justify-center py-20 px-6 bg-slate-50/50">
+    <div class="w-full max-w-md">
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] shadow-2xl p-10 md:p-12">
 
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-extrabold text-nwu-black tracking-tight">Staff login</h2>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-nwu-black tracking-tight">Staff login</h2>
+            </div>
+
+            {% if error %}
+            <div
+                class="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-2xl text-sm font-semibold text-center">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form action="{{ url_for('login_post') }}" method="POST" class="space-y-6">
+                <div>
+                    <label for="role" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Access role</label>
+                    <div class="relative">
+                        <select id="role" name="role" required
+                            class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all appearance-none cursor-pointer">
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="ADMIN">Administrator</option>
+                            {% for campus in campuses %}
+                            <option value="{{ campus.campus_id }}">{{ campus.campus_name }} staff</option>
+                            {% endfor %}
+                        </select>
+                        <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-nwu-grey">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
-                <form action="#" class="space-y-6">
-                    <div>
-                        <label for="role" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Access role</label>
-                        <div class="relative">
-                            <select id="role"
-                                class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all appearance-none cursor-pointer">
-                                <option value="" disabled selected>Select your role</option>
-                                <option value="admin">Administrator</option>
-                                <option value="mahikeng">Mahikeng staff</option>
-                                <option value="potch">Potchefstroom staff</option>
-                                <option value="vanderbijl">Vanderbijlpark staff</option>
-                            </select>
-                            <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-nwu-grey">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <label for="staff-id" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Staff
+                        number</label>
+                    <input type="text" id="staff-id" name="staff_num" placeholder="Enter staff number" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
+                </div>
 
-                    <div>
-                        <label for="staff-id" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Staff
-                            number</label>
-                        <input type="text" id="staff-id" placeholder="Enter staff number"
-                            class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
+                <div>
+                    <label for="password" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
+                    <div class="flex justify-end mt-2">
+                        <a href="{{ url_for('reset') }}"
+                            class="text-xs font-bold text-nwu-purple hover:underline tracking-tight">Forgot
+                            password?</a>
                     </div>
+                </div>
 
-                    <div>
-                        <label for="password" class="text-sm font-bold text-nwu-grey mb-2 block ml-1">Password</label>
-                        <input type="password" id="password" placeholder="••••••••"
-                            class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
-                        <div class="flex justify-end mt-2">
-                            <a href="{{ url_for('reset') }}" class="text-xs font-bold text-nwu-purple hover:underline tracking-tight">Forgot
-                                password?</a>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-nwu-purple text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-purple/20 hover:bg-[#5a327a] transform active:scale-[0.98] transition-all">
-                        Login to system
-                    </button>
-                </form>
-            </div>
+                <button type="submit"
+                    class="w-full bg-nwu-purple text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-purple/20 hover:bg-[#5a327a] transform active:scale-[0.98] transition-all">
+                    Login to system
+                </button>
+            </form>
         </div>
-    </main>
+    </div>
+</main>
 {% endblock content %}
-    
