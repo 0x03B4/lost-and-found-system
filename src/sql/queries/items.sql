@@ -1,5 +1,8 @@
 -- :name get_all_items :many
 SELECT *, COUNT(*) OVER() AS total_count FROM found_item
+ORDER BY
+  CASE WHEN :sort_text = 'asc' THEN item_date_received END ASC,
+  CASE WHEN :sort_text = 'desc' THEN item_date_received END DESC
 LIMIT :limit OFFSET :offset;
 
 -- :name get_items_by_search_category_and_campus :many

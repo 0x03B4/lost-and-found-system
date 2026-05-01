@@ -91,7 +91,9 @@ def search(request: Request):
                                                 offset=page_offset
         ))
     else:
-        items = list(queries.get_all_items(limit=page_size, offset=page_offset))
+        items = list(queries.get_all_items(limit=page_size, 
+                                           sort_text=query_sort, 
+                                           offset=page_offset))
 
     # Pagination
     page = query_page_number
