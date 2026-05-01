@@ -1,4 +1,3 @@
-from csv import QUOTE_STRINGS
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 import pugsql
@@ -101,6 +100,8 @@ def search(request: Request):
     total_items = items[0].get("total_count") if len(items) != 0 else 0
     page_total_items = len(items)
     total_pages = math.ceil(total_items / page_size)
+    current_url = re.sub(r'([&?]page=\d+)|(page=\d+&?)', '', str(request.url)).strip("?").strip("&")
+    current_url = current_url + "?" if current_url.split("/")[-1] == "search" else current_url
 
     context = {
         "items": items,
@@ -121,7 +122,7 @@ def search(request: Request):
             "has_prev": page > 1,
             "next_page": page + 1 if page < total_pages else None,
             "prev_page": page - 1 if page > 1 else None,
-            "current_url": re.sub(r'([&?]page=\d+)|(page=\d+&?)', '', str(request.url)).strip("?").strip("&"),
+            "current_url": current_url,
         }
     }
 
