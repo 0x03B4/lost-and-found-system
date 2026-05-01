@@ -17,7 +17,8 @@ queries = pugsql.module('src/sql/queries/')
 supabase_connection = os.getenv("SUPABASE_CONNECTION_STRING")
 queries.connect(supabase_connection)
 
-# Public page
+# Public pages
+
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse(request, "public/homepage.html")
@@ -158,3 +159,46 @@ def login(request: Request):
 @app.get("/reset")
 def reset(request: Request):
     return templates.TemplateResponse(request, "public/reset_password.html")
+
+# Staff pages
+
+@app.get("/staff")
+@app.get("/staff/dashboard")
+def staff_dashboard(request: Request):
+    return templates.TemplateResponse(request, "staff/dashboard.html")
+
+@app.get("/staff/inventory")
+def staff_inventory(request: Request):
+    return templates.TemplateResponse(request, "staff/inventory.html")
+
+@app.get("/staff/log-item")
+def staff_log_item(request: Request):
+    return templates.TemplateResponse(request, "staff/log_item.html")
+
+@app.get("/staff/claim")
+def staff_claim(request: Request):
+    return templates.TemplateResponse(request, "staff/claim.html")
+
+@app.get("/staff/claims")
+def staff_claim_records(request: Request):
+    return templates.TemplateResponse(request, "staff/claim_records.html")
+
+@app.get("/staff/view-claim")
+def staff_view_claim(request: Request):
+    return templates.TemplateResponse(request, "staff/view_claim.html")
+
+
+# Admin pages
+
+@app.get("/admin")
+@app.get("/admin/dashboard")
+def admin_dashboard(request: Request):
+    return templates.TemplateResponse(request, "admin/dashboard.html")
+
+@app.get("/admin/inventory")
+def admin_inventory(request: Request):
+    return templates.TemplateResponse(request, "admin/inventory.html")
+
+@app.get("/admin/analytics")
+def admin_analytics(request: Request):
+    return templates.TemplateResponse(request, "admin/analytics.html")
