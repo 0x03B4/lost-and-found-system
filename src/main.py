@@ -35,10 +35,8 @@ def search(request: Request):
 
     query_page_number = request.query_params.get("page", 1)
     query_page_number = int(query_page_number) if query_page_number != 1 else query_page_number
-    page_size = 1
+    page_size = 9
     page_offset = page_size * (query_page_number - 1)
-
-    print(request.url)
 
     items = None
 
