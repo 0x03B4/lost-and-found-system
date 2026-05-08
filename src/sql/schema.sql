@@ -36,7 +36,7 @@ CREATE TABLE staff_member (
     staff_lname VARCHAR(50) NOT NULL,
     staff_email CITEXT UNIQUE NOT NULL,
     staff_password_hash VARCHAR(255) NOT NULL,
-    role_id VARCHAR(5),
+    role_id VARCHAR(5) NOT NULL,
 
     CONSTRAINT ck_staff_member_num_range
         CHECK (staff_num BETWEEN 0 AND 99999999),
