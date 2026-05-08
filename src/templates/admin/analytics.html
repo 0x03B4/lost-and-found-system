@@ -6,13 +6,13 @@
 
 {% block content %}
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
-        <div
+        <form method="get" action="/admin/analytics"
             class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
 
             <div>
                 <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Enter
                     Year</label>
-                <input type="number" placeholder="2026" value="2026"
+                <input type="number" name="year" placeholder="2026" value="{{ form.year }}"
                     class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple font-bold text-nwu-black placeholder:text-gray-300" />
             </div>
 
@@ -20,13 +20,13 @@
                 <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Select
                     Quarter</label>
                 <div class="relative">
-                    <select
+                    <select name="quarter"
                         class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none font-bold text-nwu-black">
-                        <option value="full">Full Year (Jan - Dec)</option>
-                        <option value="q1" selected>Q1 (Jan - Mar)</option>
-                        <option value="q2">Q2 (Apr - Jun)</option>
-                        <option value="q3">Q3 (Jul - Sep)</option>
-                        <option value="q4">Q4 (Oct - Dec)</option>
+                        <option value="">Full Year (Jan - Dec)</option>
+                        <option value="q1" {% if form.quarter == 'q1' %}selected{% endif %}>Q1 (Jan - Mar)</option>
+                        <option value="q2" {% if form.quarter == 'q2' %}selected{% endif %}>Q2 (Apr - Jun)</option>
+                        <option value="q3" {% if form.quarter == 'q3' %}selected{% endif %}>Q3 (Jul - Sep)</option>
+                        <option value="q4" {% if form.quarter == 'q4' %}selected{% endif %}>Q4 (Oct - Dec)</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,12 +40,12 @@
             <div>
                 <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Campus</label>
                 <div class="relative">
-                    <select
+                    <select name="campus_id"
                         class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none font-bold text-nwu-black">
-                        <option value="all">All Campuses</option>
-                        <option value="mahikeng">Mahikeng</option>
-                        <option value="potch">Potchefstroom</option>
-                        <option value="vaal">Vanderbijlpark</option>
+                        <option value="">All Campuses</option>
+                        {% for campus in campuses %}
+                        <option value="{{ campus.campus_id }}" {% if form.campus_id == campus.campus_id %}selected{% endif %}>{{ campus.campus_name }}</option>
+                        {% endfor %}
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,35 +56,35 @@
                 </div>
             </div>
 
-            <button
+            <button type="submit"
                 class="w-full bg-nwu-purple text-white font-bold px-4 py-3.5 rounded-xl hover:bg-nwu-black transition-all shadow-md active:scale-95 text-sm uppercase tracking-wider">
                 Generate View
             </button>
-        </div>
+        </form>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">Student Cards</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ most_lost.category_name if most_lost else '—' }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">
                     Most lost category
                 </p>
             </div>
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">1,124</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.in_storage if summary else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Items currently in storage</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">3,450</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.claimed if summary else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Processed Claims</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">4,142</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.disposed if summary else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">
                     Disposed Items
                 </p>
@@ -101,51 +101,19 @@
                 </div>
 
                 <div class="space-y-6">
+                    {% for row in category_dist %}
                     <div>
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-nwu-black">Student Cards</span>
-                            <span class="font-bold text-nwu-purple">42% (1,440 items)</span>
+                            <span class="font-bold text-nwu-black">{{ row.category_name }}</span>
+                            <span class="font-bold text-nwu-purple">{{ row.percentage }}% ({{ row.item_count }} items)</span>
                         </div>
                         <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div class="bg-nwu-purple h-3 rounded-full" style="width: 42%"></div>
+                            <div class="bg-nwu-purple h-3 rounded-full" style="width: {{ row.percentage }}%"></div>
                         </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-nwu-black">Electronics</span>
-                            <span class="font-bold text-nwu-turq">28% (960 items)</span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div class="bg-nwu-turq h-3 rounded-full" style="width: 28%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-nwu-black">Personal Items (Bags, Clothing)</span>
-                            <span class="font-bold text-gray-800">18% (617 items)</span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div class="bg-gray-800 h-3 rounded-full" style="width: 18%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-nwu-black">Keys</span>
-                            <span class="font-bold text-gray-500">8% (274 items)</span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div class="bg-gray-400 h-3 rounded-full" style="width: 8%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-nwu-black">Documents</span>
-                            <span class="font-bold text-gray-400">4% (137 items)</span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div class="bg-gray-300 h-3 rounded-full" style="width: 4%"></div>
-                        </div>
-                    </div>
+                    {% else %}
+                    <p class="text-sm text-nwu-grey font-medium">No data available for the selected period.</p>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -155,40 +123,30 @@
                 </div>
 
                 <div class="flex-grow flex flex-col justify-center items-center">
+                    {% if campus_volume %}
                     <div class="w-full flex h-16 rounded-2xl overflow-hidden shadow-sm mb-8">
-                        <div class="bg-nwu-turq h-full flex items-center justify-center text-white font-bold text-sm"
-                            style="width: 55%" title="Potchefstroom (55%)">55%</div>
-                        <div class="bg-nwu-purple h-full flex items-center justify-center text-white font-bold text-sm"
-                            style="width: 30%" title="Mahikeng (30%)">30%</div>
-                        <div class="bg-gray-800 h-full flex items-center justify-center text-white font-bold text-sm"
-                            style="width: 15%" title="Vanderbijlpark (15%)">15%</div>
+                        {% for campus in campus_volume %}
+                        <div class="h-full flex items-center justify-center text-white font-bold text-sm"
+                            style="width: {{ campus.percentage }}%; background-color: {% if loop.index == 1 %}#009aad{% elif loop.index == 2 %}#4f2d7f{% else %}#1f2937{% endif %};"
+                            title="{{ campus.campus_name }} ({{ campus.percentage }}%)">
+                            {{ campus.percentage }}%
+                        </div>
+                        {% endfor %}
                     </div>
+                    {% endif %}
 
                     <div class="w-full space-y-4">
+                        {% for campus in campus_volume %}
                         <div
                             class="flex justify-between items-center p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
                             <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-nwu-turq"></span>
-                                <span class="font-bold text-nwu-black">Potchefstroom</span>
+                                <span class="w-3 h-3 rounded-full"
+                                    style="background-color: {% if loop.index == 1 %}#009aad{% elif loop.index == 2 %}#4f2d7f{% else %}#1f2937{% endif %};"></span>
+                                <span class="font-bold text-nwu-black">{{ campus.campus_name }}</span>
                             </div>
-                            <span class="font-bold text-nwu-turq">1,896 Total Items</span>
+                            <span class="font-bold text-nwu-black">{{ campus.item_count }} Total Items</span>
                         </div>
-                        <div
-                            class="flex justify-between items-center p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-nwu-purple"></span>
-                                <span class="font-bold text-nwu-black">Mahikeng</span>
-                            </div>
-                            <span class="font-bold text-nwu-purple">1,034 Total Items</span>
-                        </div>
-                        <div
-                            class="flex justify-between items-center p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-gray-800"></span>
-                                <span class="font-bold text-nwu-black">Vanderbijlpark</span>
-                            </div>
-                            <span class="font-bold text-gray-800">518 Total Items</span>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -211,34 +169,18 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
+                        {% for row in monthly_trend %}
                         <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 font-bold text-nwu-black">April 2026</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">342</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">210</td>
-                            <td class="px-6 py-4">61.4%
-                            </td>
+                            <td class="px-6 py-4 font-bold text-nwu-black">{{ row.month_label }}</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">{{ row.items_received }}</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">{{ row.claims_made }}</td>
+                            <td class="px-6 py-4">{{ row.claim_rate }}%</td>
                         </tr>
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 font-bold text-nwu-black">March 2026</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">298</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">215</td>
-                            <td class="px-6 py-4">72.1%
-                            </td>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-10 text-center text-nwu-grey font-medium">No data available for the selected period.</td>
                         </tr>
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 font-bold text-nwu-black">February 2026</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">415</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">280</td>
-                            <td class="px-6 py-4">67.4%
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 font-bold text-nwu-black">January 2026</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">120</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">95</td>
-                            <td class="px-6 py-4">79.1%
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -246,4 +188,3 @@
 
     </main>
 {% endblock content %}
-    

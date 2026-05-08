@@ -1,178 +1,190 @@
-{% extends 'public/public_base.html' %}
-
-
+{% extends 'admin/admin_base.html' %}
 
 {% block title %}
-    search
+    analytics
 {% endblock title %}
-    
-
 
 {% block content %}
-    
-    <div class="max-w-7xl mx-auto px-6 py-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
+    <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
+        <form method="get" action="/admin/analytics"
+            class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
 
-        <aside class="lg:col-span-3 space-y-6">
-            <form action="{{ url_for('search') }}" method="GET" class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-extrabold text-lg tracking-tight capitalize">Filters</h3>
-                    <a href="{{ url_for('reset_search') }}" class="text-xs font-bold text-nwu-turq hover:underline capitalize">Reset</a>
-                </div>
-            
-                <div class="space-y-8">
-                    <div>
-                        <label for="search_text" class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Search Item</label>
-                        <input type="text" placeholder="e.g. iPhone, Keys..."
-                            id="search_text" name="search_text"
-                            class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq transition-colors"
-                            {% if form.search_text %}
-                                value="{{ form.search_text }}"
-                            {% endif %}
-                        >
-                    </div>
-            
-                    <div>
-                        <label for="sort_order" class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-2 block">Sort By</label>
-                        <div class="relative">
-                            <select id="sort_order" name="sort" 
-                                class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nwu-turq appearance-none cursor-pointer">
-                                    {% if form.sort == "asc" %}
-                                        <option value="desc">Newest First</option>
-                                        <option value="asc" selected>Oldest First</option>
-                                    {% else %}
-                                        <option value="desc" selected>Newest First</option>
-                                        <option value="asc">Oldest First</option>
-                                    {% endif %}
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <div>
-                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Campus Location</label>
-                        <div class="space-y-3">
-                            {% for campus in campuses %}
-                                <label class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group">
-                                    <input type="checkbox" 
-                                           name="campuses" 
-                                           value="{{ campus.campus_id }}" 
-                                           class="w-4 h-4 accent-nwu-purple rounded border-gray-300"
-                                           {% if campus.campus_id in form.campuses %}
-                                                checked
-                                           {% endif %}
-                                    > 
-                                    <span class="group-hover:text-nwu-black">{{ campus.campus_name }}</span>
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </div>
-            
-                    <div>
-                        <label class="text-[10px] font-bold text-nwu-grey uppercase tracking-widest mb-3 block">Category</label>
-                        <div class="space-y-3">
-                            {% for category_id, category_name in categories.items() %}
-                                <label class="flex items-center gap-3 text-sm font-medium text-nwu-grey cursor-pointer group">
-                                    <input type="checkbox" 
-                                           name="categories" 
-                                           value="{{ category_id }}" 
-                                           class="w-4 h-4 accent-nwu-purple rounded border-gray-300"
-                                           {% if category_id in form.categories %}
-                                                checked
-                                           {% endif %}
-                                    > 
-                                    <span class="group-hover:text-nwu-black">{{ category_name }}</span>
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </div>
-            
-                    <button type="submit"
-                        class="w-full bg-nwu-turq text-white font-bold py-4 rounded-2xl shadow-lg shadow-nwu-turq/20 hover:bg-[#007080] transition-all uppercase text-xs tracking-widest">
-                        Apply Filters
-                    </button>
-                </div>
-            </form>
-        </aside>
-
-        <main class="lg:col-span-9">
-            <div class="flex justify-between items-center mb-8">
-                <p class="text-sm text-nwu-grey font-medium tracking-tight">Displaying <span
-                        class="text-nwu-black font-bold text-base">{{ pagination.page_items_total }}</span> of {{ pagination.items_total }}</p>
+            <div>
+                <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Enter
+                    Year</label>
+                <input type="number" name="year" placeholder="2026" value="{{ form.year }}"
+                    class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple font-bold text-nwu-black placeholder:text-gray-300" />
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div>
+                <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Select
+                    Quarter</label>
+                <div class="relative">
+                    <select name="quarter"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none font-bold text-nwu-black">
+                        <option value="">Full Year (Jan - Dec)</option>
+                        <option value="q1" {% if form.quarter == 'q1' %}selected{% endif %}>Q1 (Jan - Mar)</option>
+                        <option value="q2" {% if form.quarter == 'q2' %}selected{% endif %}>Q2 (Apr - Jun)</option>
+                        <option value="q3" {% if form.quarter == 'q3' %}selected{% endif %}>Q3 (Jul - Sep)</option>
+                        <option value="q4" {% if form.quarter == 'q4' %}selected{% endif %}>Q4 (Oct - Dec)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
 
-                {% if items %}
-                    {% for item in items %}
-                        <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                            <div class="aspect-video bg-gray-200 relative overflow-hidden">
-                                <img src="{{ item.item_image_url }}" alt="{{ item.item_name }}" class="w-full h-full object-cover">
-                                <div class="absolute top-4 left-4 bg-nwu-turq text-white text-[10px] font-bold px-3 py-1.5 rounded-full capitalize tracking-tight">
-                                    {{ categories.get(item.category_id) }}
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <h4 class="text-lg font-extrabold text-nwu-black mb-1">{{ item.item_name }}</h4>
-                                {% if item.campus_id == "MAF" %}
-                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Mafikeng</p>
-                                {% elif item.campus_id == "VAN" %}
-                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Vanderbijlpark</p>
-                                {% elif item.campus_id == "POT" %}
-                                    <p class="text-sm font-bold text-nwu-purple tracking-tight">Potchefstroom</p>
-                                {% endif %}
-                            </div>
+            <div>
+                <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Campus</label>
+                <div class="relative">
+                    <select name="campus_id"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none font-bold text-nwu-black">
+                        <option value="">All Campuses</option>
+                        {% for campus in campuses %}
+                        <option value="{{ campus.campus_id }}" {% if form.campus_id == campus.campus_id %}selected{% endif %}>{{ campus.campus_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-nwu-grey">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-nwu-purple text-white font-bold px-4 py-3.5 rounded-xl hover:bg-nwu-black transition-all shadow-md active:scale-95 text-sm uppercase tracking-wider">
+                Generate View
+            </button>
+        </form>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
+                <h3 class="text-3xl font-black text-nwu-black">{{ most_lost.category_name if most_lost else '—' }}</h3>
+                <p class="text-xs font-medium text-nwu-grey mt-1">
+                    Most lost category
+                </p>
+            </div>
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.in_storage if summary else 0 }}</h3>
+                <p class="text-xs font-medium text-nwu-grey mt-1">Items currently in storage</p>
+            </div>
+
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.claimed if summary else 0 }}</h3>
+                <p class="text-xs font-medium text-nwu-grey mt-1">Processed Claims</p>
+            </div>
+
+            <div
+                class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.disposed if summary else 0 }}</h3>
+                <p class="text-xs font-medium text-nwu-grey mt-1">
+                    Disposed Items
+                </p>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-soft">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="font-extrabold text-lg text-nwu-black tracking-tight">Inventory Distribution by Category
+                    </h3>
+                </div>
+
+                <div class="space-y-6">
+                    {% for row in category_dist %}
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-bold text-nwu-black">{{ row.category_name }}</span>
+                            <span class="font-bold text-nwu-purple">{{ row.percentage }}% ({{ row.item_count }} items)</span>
                         </div>
+                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                            <div class="bg-nwu-purple h-3 rounded-full" style="width: {{ row.percentage }}%"></div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-sm text-nwu-grey font-medium">No data available for the selected period.</p>
                     {% endfor %}
-                {% else %}
-                    <div class="xl:col-start-2 md:col-start-1 col-span-1 flex flex-col items-center justify-center py-20 px-6 rounded-3xl">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-soft mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-extrabold text-nwu-black mb-2 text-center">No items found</h3>
-                    </div>
-                {% endif %}
-                
+                </div>
             </div>
 
-            <div class="mt-12 flex justify-center items-center gap-4">
-                <a  
-                    {% if pagination.has_prev %}
-                        href="{{ pagination.current_url }}&page={{ pagination.prev_page }}"
+            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-soft flex flex-col">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="font-extrabold text-lg text-nwu-black tracking-tight">Total Volume Share by Campus</h3>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-center items-center">
+                    {% if campus_volume %}
+                    <div class="w-full flex h-16 rounded-2xl overflow-hidden shadow-sm mb-8">
+                        {% for campus in campus_volume %}
+                        <div class="h-full flex items-center justify-center text-white font-bold text-sm"
+                            style="width: {{ campus.percentage }}%; background-color: {% if loop.index == 1 %}#009aad{% elif loop.index == 2 %}#4f2d7f{% else %}#1f2937{% endif %};"
+                            title="{{ campus.campus_name }} ({{ campus.percentage }}%)">
+                            {{ campus.percentage }}%
+                        </div>
+                        {% endfor %}
+                    </div>
                     {% endif %}
-                    class="p-2 border border-gray-200 rounded-full transition-all
-                        {% if not pagination.has_prev %}
-                            opacity-30 pointer-events-none cursor-not-allowed
-                        {% else %}
-                            hover:bg-gray-50 hover:border-nwu-turq
-                        {% endif %}">
-                    
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </a>
-                <span class="text-sm font-bold text-nwu-black tracking-tight">Page {{ pagination.page }} of {{ pagination.total_pages }}</span>
-                <a  
-                    {% if pagination.has_next %}
-                        href="{{ pagination.current_url }}&page={{ pagination.next_page }}"
-                    {% endif %}
-                    class="p-2 border border-gray-200 rounded-full transition-all
-                        {% if not pagination.has_next %}
-                            opacity-30 pointer-events-none cursor-not-allowed
-                        {% else %}
-                            hover:bg-gray-50 hover:border-nwu-turq
-                        {% endif %}"
-                    aria-label="Next Page">
-                    
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+
+                    <div class="w-full space-y-4">
+                        {% for campus in campus_volume %}
+                        <div
+                            class="flex justify-between items-center p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full"
+                                    style="background-color: {% if loop.index == 1 %}#009aad{% elif loop.index == 2 %}#4f2d7f{% else %}#1f2937{% endif %};"></span>
+                                <span class="font-bold text-nwu-black">{{ campus.campus_name }}</span>
+                            </div>
+                            <span class="font-bold text-nwu-black">{{ campus.item_count }} Total Items</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
+            <div class="p-6 border-b border-gray-100">
+                <h3 class="font-extrabold text-lg text-nwu-black tracking-tight">Monthly Trend Analysis</h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                        class="bg-gray-50/80 border-b border-gray-100 text-[10px] font-bold text-nwu-grey capitalize tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Month</th>
+                            <th class="px-6 py-4">Total Items Received</th>
+                            <th class="px-6 py-4">Total Claims</th>
+                            <th class="px-6 py-4">Claim Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for row in monthly_trend %}
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4 font-bold text-nwu-black">{{ row.month_label }}</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">{{ row.items_received }}</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">{{ row.claims_made }}</td>
+                            <td class="px-6 py-4">{{ row.claim_rate }}%</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-10 text-center text-nwu-grey font-medium">No data available for the selected period.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
 {% endblock content %}
-    

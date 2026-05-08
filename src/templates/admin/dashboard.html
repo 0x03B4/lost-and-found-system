@@ -9,19 +9,19 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">1,124</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ global_stats.in_storage }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Items currently in storage</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">3,450</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ global_stats.claimed }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Processed Claims</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">4,142</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ global_stats.disposed }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">
                     Disposed Items
                 </p>
@@ -31,89 +31,37 @@
         <div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+                {% for campus in campus_stats %}
                 <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h4 class="font-bold text-nwu-black text-lg">Mahikeng</h4>
+                            <h4 class="font-bold text-nwu-black text-lg">{{ campus.campus_name }}</h4>
                         </div>
                     </div>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-nwu-grey font-medium">Currently in Storage</span>
-                            <span class="font-bold text-nwu-black">342</span>
+                            <span class="font-bold text-nwu-black">{{ campus.in_storage }}</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-nwu-grey font-medium">Claims Processed</span>
-                            <span class="font-bold text-nwu-black">985</span>
+                            <span class="font-bold text-nwu-black">{{ campus.claimed }}</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-nwu-grey font-medium">Items Disposed</span>
-                            <span class="font-bold text-nwu-black">112</span>
+                            <span class="font-bold text-nwu-black">{{ campus.disposed }}</span>
                         </div>
                     </div>
                     <div class="mt-6 pt-4 border-t border-gray-100">
-                        <a href="#" class="text-xs font-bold text-nwu-purple hover:underline flex items-center gap-1">
-                            View Mahikeng Inventory
+                        <a href="/admin/inventory?campus_id={{ campus.campus_id }}" class="text-xs font-bold text-nwu-purple hover:underline flex items-center gap-1">
+                            View {{ campus.campus_name }} Inventory
                         </a>
                     </div>
                 </div>
+                {% endfor %}
 
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h4 class="font-bold text-nwu-black text-lg">Potchefstroom</h4>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Currently in Storage</span>
-                            <span class="font-bold text-nwu-black">514</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Claims Processed</span>
-                            <span class="font-bold text-nwu-black">1,820</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Items Disposed</span>
-                            <span class="font-bold text-nwu-black">204</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <a href="#" class="text-xs font-bold text-nwu-turq hover:underline flex items-center gap-1">
-                            View Potchefstroom Inventory
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h4 class="font-bold text-nwu-black text-lg">Vanderbijlpark</h4>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Currently in Storage</span>
-                            <span class="font-bold text-nwu-black">268</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Claims Processed</span>
-                            <span class="font-bold text-nwu-black">645</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-nwu-grey font-medium">Items Disposed</span>
-                            <span class="font-bold text-nwu-black">45</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <a href="#" class="text-xs font-bold text-gray-700 hover:underline flex items-center gap-1">
-                            View Vanderbijlpark Inventory
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
 
 {% endblock content %}
-    
