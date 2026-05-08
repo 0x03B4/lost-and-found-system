@@ -9,7 +9,8 @@ Claim Records
 {% block content %}
 <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
 
-    <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft flex flex-col lg:flex-row gap-4 items-end">
+    <form method="get" action="/staff/claims"
+        class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft flex flex-col lg:flex-row gap-4 items-end">
         <div class="flex-grow w-full lg:w-auto">
             <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Search
                 Records</label>
@@ -20,27 +21,22 @@ Claim Records
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
-                <input type="text" placeholder="Search by Claim #, Item ID, or Claimant Name..."
+                <input type="text" name="search_text" value="{{ form.search_text }}" placeholder="Search by Claim #, Item ID, or Claimant Name..."
                     class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
             </div>
         </div>
 
         <div class="w-full lg:w-48">
             <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Month</label>
-            <select
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none">
-                <option value="all">All Time</option>
-                <option value="april">April 2026</option>
-                <option value="march">March 2026</option>
-                <option value="february">February 2026</option>
-            </select>
+            <input type="month" name="month" value="{{ form.month or '' }}"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer">
         </div>
 
-        <button
+        <button type="submit"
             class="w-full lg:w-auto bg-gray-900 text-white font-bold px-6 py-3 rounded-xl hover:bg-black transition-colors text-sm">
             Apply Filter
         </button>
-    </div>
+    </form>
 
     <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
         <div class="overflow-x-auto">
@@ -57,106 +53,53 @@ Claim Records
                 </thead>
                 <tbody class="divide-y divide-gray-50">
 
+                    {% for claim in claims %}
                     <tr class="hover:bg-gray-50/50 transition-colors">
                         <td class="px-6 py-4">
-                            <span class="font-bold text-nwu-purple">#CLM-9021</span>
+                            <span class="font-bold text-nwu-purple">#CLM-{{ claim.claim_num }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <div>
-                                <p class="font-bold text-nwu-black">Brown Leather Wallet</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">Item: ITM-8922</p>
+                                <p class="font-bold text-nwu-black">{{ claim.item_name }}</p>
+                                <p class="text-[11px] font-medium text-nwu-grey">Item: #ITM-{{ claim.item_num }}</p>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div>
-                                <p class="font-bold text-nwu-black">Happiness Mahangue</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">ID: 50253328</p>
+                                <p class="font-bold text-nwu-black">{{ claim.claimant_name }}</p>
+                                <p class="text-[11px] font-medium text-nwu-grey">ID: {{ claim.claimant_num }}</p>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-nwu-black font-medium">Apr 25, 2026, 04:30 PM</td>
+                        <td class="px-6 py-4 text-nwu-black font-medium">{{ claim.claim_date.strftime('%b %d, %Y, %I:%M %p') }}</td>
                         <td class="px-6 py-4 text-right">
-                            <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
+                            <a href="/staff/view-claim?claim_num={{ claim.claim_num }}" class="text-nwu-purple font-bold text-xs hover:underline">View Claim</a>
                         </td>
                     </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition-colors">
-                        <td class="px-6 py-4">
-                            <span class="font-bold text-nwu-purple">#CLM-9020</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">SanDisk 64GB USB Drive</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">Item: ITM-8890</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">Mulweli Raphulu</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">ID: 42284066</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-nwu-black font-medium">Apr 20, 2026, 11:15 AM</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
-                        </td>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-10 text-center text-nwu-grey font-medium">No claim records found.</td>
                     </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition-colors">
-                        <td class="px-6 py-4">
-                            <span class="font-bold text-nwu-purple">#CLM-9019</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">Casio Scientific Calculator</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">Item: ITM-8801</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">Siyamthanda Xenza</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">ID: 48975842</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-nwu-black font-medium">Apr 18, 2026, 09:00 AM</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
-                        </td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition-colors">
-                        <td class="px-6 py-4">
-                            <span class="font-bold text-nwu-purple">#CLM-9018</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">Black Nike Backpack</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">Item: ITM-8795</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <p class="font-bold text-nwu-black">Tebogo Skosana</p>
-                                <p class="text-[11px] font-medium text-nwu-grey">ID: 45186693</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-nwu-black font-medium">Apr 12, 2026, 02:45 PM</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
-                        </td>
-                    </tr>
+                    {% endfor %}
 
                 </tbody>
             </table>
         </div>
 
         <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50/50">
-            <span class="text-xs font-medium text-nwu-grey">Showing 1 to 4 of 89 records</span>
+            <span class="text-xs font-medium text-nwu-grey">Showing {{ claims|length }} of {{ pagination.items_total }} records</span>
             <div class="flex gap-2">
-                <button
-                    class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50"
-                    disabled>Previous</button>
-                <button
-                    class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Next</button>
+                {% if pagination.has_prev %}
+                <a href="?page={{ pagination.prev_page }}&search_text={{ form.search_text }}&month={{ form.month or '' }}"
+                    class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Previous</a>
+                {% else %}
+                <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50" disabled>Previous</button>
+                {% endif %}
+                {% if pagination.has_next %}
+                <a href="?page={{ pagination.next_page }}&search_text={{ form.search_text }}&month={{ form.month or '' }}"
+                    class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Next</a>
+                {% else %}
+                <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50" disabled>Next</button>
+                {% endif %}
             </div>
         </div>
 

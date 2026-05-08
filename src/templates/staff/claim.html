@@ -2,95 +2,99 @@
 
 
 {% block title %}
-    Claim
+Claim
 {% endblock title %}
 
 
 
 {% block content %}
-    <main class="flex-grow max-w-5xl mx-auto px-6 sm:px-10 py-10 w-full space-y-6">
+<main class="flex-grow max-w-5xl mx-auto px-6 sm:px-10 py-10 w-full space-y-6">
 
-        <div class="flex flex-col gap-4">
-            <a href="#"
-                class="text-sm font-bold text-nwu-grey hover:text-nwu-purple transition-colors flex items-center gap-1 w-max">Back
-                to Inventory
-            </a>
-        </div>
+    <div class="flex flex-col gap-4">
+        <a href="/staff/inventory"
+            class="text-sm font-bold text-nwu-grey hover:text-nwu-purple transition-colors flex items-center gap-1 w-max">Back
+            to Inventory
+        </a>
+    </div>
 
-        <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
+    <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
 
-            <div class="p-8">
-                <form class="space-y-8">
+        <div class="p-8">
+            <form class="space-y-8" action="/staff/claim" method="post">
 
-                    <div>
-                        <h4 class="text-[10px] font-black text-nwu-purple capitalize tracking-widest mb-4">1. Claimant
-                            Information</h4>
+                <input type="hidden" name="item_num" value="{{ item.item_num }}">
 
-                        <div
-                            class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 border border-gray-100 p-6 rounded-2xl">
-                            <div>
-                                <label class="text-xs font-bold text-nwu-black mb-2 block">Student/Staff Number<span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" name="claimant_num" placeholder="e.g. 54169178"
-                                    class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
-                                    required>
-                            </div>
+                <div>
+                    <h4 class="text-[10px] font-black text-nwu-purple capitalize tracking-widest mb-4">1. Claimant
+                        Information</h4>
 
-                            <div>
-                                <label class="text-xs font-bold text-nwu-black mb-2 block">Full Name<span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" name="claimant_name" placeholder="e.g. Asonele Ralasi"
-                                    class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
-                                    required>
-                            </div>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 border border-gray-100 p-6 rounded-2xl">
+                        <div>
+                            <label class="text-xs font-bold text-nwu-black mb-2 block">Student/Staff Number<span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" name="claimant_num" placeholder="e.g. 54169178"
+                                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
+                                required>
+                        </div>
 
-                            <div class="md:col-span-2">
-                                <label class="text-xs font-bold text-nwu-black mb-2 block">Email Address<span
-                                        class="text-red-500">*</span></label>
-                                <input type="email" name="claimant_email" placeholder="e.g. 54169178@mynwu.ac.za"
-                                    class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
-                                    required>
-                            </div>
+                        <div>
+                            <label class="text-xs font-bold text-nwu-black mb-2 block">Name<span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" name="claimant_name" placeholder="e.g. Asonele"
+                                pattern="\S+"
+                                title="Name must be a single word with no spaces."
+                                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
+                                required>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="text-xs font-bold text-nwu-black mb-2 block">Email Address<span
+                                    class="text-red-500">*</span></label>
+                            <input type="email" name="claimant_email" placeholder="e.g. 54169178@mynwu.ac.za"
+                                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
+                                required>
                         </div>
                     </div>
+                </div>
 
-                    <div>
-                        <h4 class="text-[10px] font-black text-nwu-turq capitalize tracking-widest mb-4">2. Claim Record
-                            Details</h4>
+                <div>
+                    <h4 class="text-[10px] font-black text-nwu-turq capitalize tracking-widest mb-4">2. Claim Record
+                        Details</h4>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="text-xs font-bold text-nwu-grey mb-2 block">Item Number</label>
-                                <input type="text" name="item_num" value="ITM-8924"
-                                    class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-nwu-black font-semibold cursor-not-allowed"
-                                    readonly>
-                            </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-xs font-bold text-nwu-grey mb-2 block">Item</label>
+                            <input type="text" value="#ITM-{{ item.item_num }} — {{ item.item_name }}"
+                                class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-nwu-black font-semibold cursor-not-allowed"
+                                readonly>
+                        </div>
 
-                            <div>
-                                <label class="text-xs font-bold text-nwu-grey mb-2 block">Processing Staff
-                                    Member</label>
-                                <input type="text" name="staff_num" value="43403638"
-                                    class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-nwu-black font-semibold cursor-not-allowed"
-                                    readonly>
-                            </div>
+                        <div>
+                            <label class="text-xs font-bold text-nwu-grey mb-2 block">Processing Staff
+                                Member</label>
+                            <input type="text"
+                                value="{{ user.staff_fname }} {{ user.staff_lname }} ({{ user.staff_num }})"
+                                class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-nwu-black font-semibold cursor-not-allowed"
+                                readonly>
                         </div>
                     </div>
+                </div>
 
-                    <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
-                        <button type="button"
-                            class="px-6 py-3 rounded-xl font-bold text-sm text-nwu-grey hover:bg-gray-100 transition-colors">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                            class="bg-nwu-turq hover:bg-[#007080] text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-nwu-turq/20 transition-all flex items-center gap-2 text-sm tracking-wide">
-                            Submit Claim Record
-                        </button>
-                    </div>
+                <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
+                    <a href="/staff/inventory"
+                        class="px-6 py-3 rounded-xl font-bold text-sm text-nwu-grey hover:bg-gray-100 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="bg-nwu-turq hover:bg-[#007080] text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-nwu-turq/20 transition-all flex items-center gap-2 text-sm tracking-wide">
+                        Submit Claim Record
+                    </button>
+                </div>
 
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
 
-    </main>
+</main>
 {% endblock content %}
-    

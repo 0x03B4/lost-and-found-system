@@ -10,7 +10,7 @@
 
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
 
-        <div
+        <form method="get" action="/staff/inventory"
             class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft flex flex-col lg:flex-row gap-4 items-end">
             <div class="flex-grow w-full lg:w-auto">
                 <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Search
@@ -22,40 +22,39 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <input type="text" placeholder="Search by Item ID, name, or description..."
+                    <input type="text" name="search_text" value="{{ form.search_text }}" placeholder="Search by Item ID, name, or description..."
                         class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all">
                 </div>
             </div>
 
             <div class="w-full lg:w-48">
                 <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Status</label>
-                <select
+                <select name="status"
                     class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none">
-                    <option value="all">All Statuses</option>
-                    <option value="storage">In Storage</option>
-                    <option value="claimed">Claimed</option>
-                    <option value="disposed">Disposed</option>
+                    <option value="">All Statuses</option>
+                    <option value="in storage" {% if form.status == 'in storage' %}selected{% endif %}>In Storage</option>
+                    <option value="claimed" {% if form.status == 'claimed' %}selected{% endif %}>Claimed</option>
+                    <option value="disposed" {% if form.status == 'disposed' %}selected{% endif %}>Disposed</option>
                 </select>
             </div>
 
             <div class="w-full lg:w-48">
                 <label
                     class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Category</label>
-                <select
+                <select name="category_id"
                     class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer appearance-none">
-                    <option value="all">All Categories</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="student-card">Student Card</option>
-                    <option value="documents">Documents</option>
-                    <option value="personal">Personal Items</option>
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.category_id }}" {% if form.category_id == category.category_id %}selected{% endif %}>{{ category.category_name }}</option>
+                    {% endfor %}
                 </select>
             </div>
 
-            <button
+            <button type="submit"
                 class="w-full lg:w-auto bg-gray-900 text-white font-bold px-6 py-3 rounded-xl hover:bg-black transition-colors text-sm">
                 Apply
             </button>
-        </div>
+        </form>
 
         <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden">
             <div class="overflow-x-auto">
@@ -65,129 +64,64 @@
                         <tr>
                             <th class="px-6 py-5">Item Details</th>
                             <th class="px-6 py-5">Category</th>
-                            <th class="px-6 py-5">Date Updated</th>
+                            <th class="px-6 py-5">Date Logged</th>
                             <th class="px-6 py-5">Status</th>
                             <th class="px-6 py-5 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
 
-                        <tr class="hover:bg-gray-50/50 transition-colors">
+                        {% for item in items %}
+                        <tr class="hover:bg-gray-50/50 transition-colors {% if item.item_status == 'disposed' %}opacity-60{% endif %}">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div>
-                                        <p class="font-bold text-nwu-black">Silver Laptop (MacBook)</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8924</p>
+                                        <p class="font-bold text-nwu-black {% if item.item_status == 'disposed' %}line-through{% endif %}">{{ item.item_name }}</p>
+                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-{{ item.item_num }}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Electronics</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 26, 2026, 09:45 AM</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">In Storage</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium">{{ item.category_name }}</td>
+                            <td class="px-6 py-4 text-nwu-grey font-medium">{{ item.item_date_received.strftime('%b %d, %Y, %I:%M %p') }}</td>
+                            <td class="px-6 py-4 text-nwu-black font-medium capitalize">{{ item.item_status }}</td>
                             <td class="px-6 py-4 text-right space-x-3">
-                                <button class="text-nwu-purple font-bold text-xs hover:underline">Edit</button>
-                                <button class="text-nwu-turq font-bold text-xs hover:underline">Claim</button>
+                                {% if item.item_status == 'in storage' %}
+                                    <a href="/staff/log-item?item_num={{ item.item_num }}" class="text-nwu-purple font-bold text-xs hover:underline">Edit</a>
+                                    <a href="/staff/claim?item_num={{ item.item_num }}" class="text-nwu-turq font-bold text-xs hover:underline">Claim</a>
+                                    <form action="/staff/dispose" method="post" class="inline">
+                                        <input type="hidden" name="item_num" value="{{ item.item_num }}">
+                                        <button type="submit" onclick="return confirm('Mark #ITM-{{ item.item_num }} as disposed? This cannot be undone.')" class="text-red-400 font-bold text-xs hover:underline">Dispose</button>
+                                    </form>
+                                {% elif item.item_status == 'claimed' %}
+                                    <a href="/staff/view-claim?item_num={{ item.item_num }}" class="text-nwu-purple font-bold text-xs hover:underline">View Claim</a>
+                                {% endif %}
                             </td>
                         </tr>
-
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-bold text-nwu-black">Student Card (3924****)</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8923</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Student Card</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 26, 2026, 08:12 AM</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">In Storage</td>
-                            <td class="px-6 py-4 text-right space-x-3">
-                                <button class="text-nwu-purple font-bold text-xs hover:underline">Edit</button>
-                                <button class="text-nwu-turq font-bold text-xs hover:underline">Claim</button>
-                            </td>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-10 text-center text-nwu-grey font-medium">No items found.</td>
                         </tr>
-
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-bold text-nwu-black">Brown Leather Wallet</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8922</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Personal</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 25, 2026, 04:30 PM</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Claimed</td>
-                            <td class="px-6 py-4 text-right">
-                                <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50/50 transition-colors opacity-60">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-bold text-nwu-black line-through">Calculus Textbook</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8110</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Documents</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Oct 15, 2025</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Disposed</td>
-                            <td class="px-6 py-4 text-center">
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-bold text-nwu-black">Navy Blue Hoodie</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8919</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Personal</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 25, 2026, 02:15 PM</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">In Storage</td>
-                            <td class="px-6 py-4 text-right space-x-3">
-                                <button class="text-nwu-purple font-bold text-xs hover:underline">Edit</button>
-                                <button class="text-nwu-turq font-bold text-xs hover:underline">Claim</button>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-bold text-nwu-black">SanDisk 64GB USB Drive</p>
-                                        <p class="text-[11px] font-medium text-nwu-grey">ID: #ITM-8890</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Electronics</td>
-                            <td class="px-6 py-4 text-nwu-grey font-medium">Apr 20, 2026</td>
-                            <td class="px-6 py-4 text-nwu-black font-medium">Claimed</td>
-                            <td class="px-6 py-4 text-right">
-                                <button class="text-nwu-purple font-bold text-xs hover:underline">View Claim</button>
-                            </td>
-                        </tr>
+                        {% endfor %}
 
                     </tbody>
                 </table>
             </div>
 
             <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50/50">
-                <span class="text-xs font-medium text-nwu-grey">Showing 1 to 6 of 342 items</span>
+                <span class="text-xs font-medium text-nwu-grey">Showing {{ items|length }} of {{ pagination.items_total }} items</span>
                 <div class="flex gap-2">
-                    <button
-                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50"
-                        disabled>Previous</button>
-                    <button
-                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Next</button>
+                    {% if pagination.has_prev %}
+                    <a href="?page={{ pagination.prev_page }}&search_text={{ form.search_text }}&status={{ form.status or '' }}&category_id={{ form.category_id or '' }}"
+                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Previous</a>
+                    {% else %}
+                    <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50" disabled>Previous</button>
+                    {% endif %}
+                    {% if pagination.has_next %}
+                    <a href="?page={{ pagination.next_page }}&search_text={{ form.search_text }}&status={{ form.status or '' }}&category_id={{ form.category_id or '' }}"
+                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-black bg-white hover:bg-gray-50">Next</a>
+                    {% else %}
+                    <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-nwu-grey hover:bg-white disabled:opacity-50" disabled>Next</button>
+                    {% endif %}
                 </div>
             </div>
 

@@ -48,8 +48,6 @@ boxShadow: {
                 class="{% if request.url.path == url_for('staff_inventory').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Inventory</a>
             <a href="{{ url_for('staff_log_item') }}"
                 class="{% if request.url.path == url_for('staff_log_item').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Log Item</a>
-            <a href="{{ url_for('staff_claim') }}"
-                class="{% if request.url.path == url_for('staff_claim').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Claims</a>
             <a href="{{ url_for('staff_claim_records') }}"
                 class="{% if request.url.path == url_for('staff_claim_records').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Claim Records</a>
         </div>

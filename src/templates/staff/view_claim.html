@@ -10,7 +10,7 @@
     <main class="flex-grow max-w-4xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
 
         <div class="flex flex-col gap-2">
-            <a href="#"
+            <a href="/staff/claims"
                 class="text-sm font-bold text-nwu-grey hover:text-nwu-purple transition-colors flex items-center gap-1 w-max">
                 Back to Claim Records
             </a>
@@ -25,15 +25,15 @@
                 <dl class="space-y-3">
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Claim Number </dt>
-                        <dd class="text-sm font-semibold text-nwu-black">CLM-9021</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">CLM-{{ claim.claim_num }}</dd>
                     </div>
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Date of Claim </dt>
-                        <dd class="text-sm font-semibold text-nwu-black">Apr 25, 2026, 04:30 PM</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.claim_date.strftime('%b %d, %Y, %I:%M %p') }}</dd>
                     </div>
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Processed By </dt>
-                        <dd class="text-sm font-semibold text-nwu-black">Toko Motebejane (43403638)</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.staff_fname }} {{ claim.staff_lname }} ({{ claim.staff_num }})</dd>
                     </div>
                 </dl>
             </div>
@@ -45,15 +45,15 @@
                 <dl class="space-y-3">
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Item Number</dt>
-                        <dd class="text-sm font-semibold text-nwu-black">ITM-8922</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">#ITM-{{ claim.item_num }}</dd>
                     </div>
                     <div class="flex flex-col">
-                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Item Description</dt>
-                        <dd class="text-sm font-semibold text-nwu-black">Brown Leather Wallet</dd>
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Item Name</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.item_name }}</dd>
                     </div>
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Category</dt>
-                        <dd class="text-sm font-semibold text-nwu-black">Personal</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.category_name }}</dd>
                     </div>
                 </dl>
             </div>
@@ -65,21 +65,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Claimant ID</dt>
-                        <dd class="text-sm font-semibold text-nwu-black">54169178</dd>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.claimant_num }}</dd>
                     </div>
                     <div class="flex flex-col">
-                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Full Nam</dt>
-                        <dd class="text-sm font-semibold text-nwu-black">Asonele Ralasi</dd>
+                        <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Full Name</dt>
+                        <dd class="text-sm font-semibold text-nwu-black">{{ claim.claimant_name }}</dd>
                     </div>
                     <div class="flex flex-col">
                         <dt class="text-xs font-bold text-nwu-grey capitalize tracking-wider mb-1">Email Address</dt>
-                        <dd class="text-sm font-semibold text-nwu-purple"><a href="mailto:39248812@mynwu.ac.za"
-                                class="hover:underline">54169178@mynwu.ac.za</a></dd>
+                        <dd class="text-sm font-semibold text-nwu-purple"><a href="mailto:{{ claim.claimant_email }}"
+                                class="hover:underline">{{ claim.claimant_email }}</a></dd>
                     </div>
                 </div>
             </div>
 
-        </div>
         </div>
     </main>
 {% endblock content %}
