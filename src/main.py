@@ -74,6 +74,7 @@ async def unauthorized_exception_handler(request: Request, exc: HTTPException):
 
 # Public pages
 
+@app.get("/home")
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse(request, "public/homepage.html")
