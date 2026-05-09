@@ -1,21 +1,50 @@
 {% extends "base.html" %}
 
 {% block navbar %}
-<header class="bg-white border-b border-gray-100 relative z-20">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 py-5 flex justify-between items-center">
-        <a href="{{ url_for('home') }}" class="flex items-center gap-5">
+<header class="bg-white border-b border-gray-100 relative z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-10 py-4 flex justify-between items-center gap-4">
+        <a href="{{ url_for('home') }}" class="flex items-center gap-3 sm:gap-5">
             <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" alt="North-West University Logo"
-                class="w-24 h-auto mb-6" />
-            <div class="border-l border-gray-200 pl-5 text-left">
-                <h1 class="text-xl font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services</h1>
-                <span class="text-sm font-medium text-nwu-grey mt-1 block">Lost and Found System</span>
+                class="w-16 sm:w-24 h-auto" />
+            <div class="border-l border-gray-200 pl-3 sm:pl-5 text-left">
+                <h1 class="text-lg sm:text-xl font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services</h1>
+                <span class="text-xs sm:text-sm font-medium text-nwu-grey mt-1 block">Lost and Found System</span>
             </div>
         </a>
 
-        <div class="hidden md:block">
+        <div class="flex items-center gap-4">
             <a href="{{ url_for('login') }}"
-                class="inline-flex items-center gap-2 bg-white border border-gray-200 text-nwu-black px-5 py-2.5 rounded-full text-sm font-semibold hover:border-nwu-purple hover:text-nwu-purple transition-all shadow-sm">
+                class="hidden md:inline-flex items-center gap-2 bg-white border border-gray-200 text-nwu-black px-5 py-2.5 rounded-full text-sm font-semibold hover:border-nwu-purple hover:text-nwu-purple transition-all shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                Staff Portal
+            </a>
+            
+            <button id="mobile-menu-btn" class="md:hidden text-nwu-black hover:text-nwu-purple focus:outline-none p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="menu-icon-open">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="menu-icon-close">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 shadow-md relative z-20">
+    <div class="px-4 pt-2 pb-6 space-y-2">
+        <a href="{{ url_for('home') }}" class="block px-3 py-2 rounded-md text-base font-semibold {% if request.url.path == url_for('home').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Home</a>
+        <a href="{{ url_for('search') }}" class="block px-3 py-2 rounded-md text-base font-semibold {% if request.url.path == url_for('search').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Search Items</a>
+        <a href="{{ url_for('privacy') }}" class="block px-3 py-2 rounded-md text-base font-semibold {% if request.url.path == url_for('privacy').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Privacy</a>
+        <a href="{{ url_for('terms') }}" class="block px-3 py-2 rounded-md text-base font-semibold {% if request.url.path == url_for('terms').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Terms of Service</a>
+        <a href="{{ url_for('contact') }}" class="block px-3 py-2 rounded-md text-base font-semibold {% if request.url.path == url_for('contact').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Contact Us</a>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+            <a href="{{ url_for('login') }}" class="flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold text-nwu-purple hover:bg-purple-50">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                     </path>
@@ -24,10 +53,10 @@
             </a>
         </div>
     </div>
-</header>
+</div>
 
-<nav class="bg-gradient-to-r from-nwu-purple to-[#5a327a] text-white shadow-md relative z-10">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 flex justify-center items-center h-14 text-center">
+<nav class="hidden md:block bg-gradient-to-r from-nwu-purple to-[#5a327a] text-white shadow-md relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-10 flex justify-center items-center h-14 text-center">
         <div class="flex gap-8 text-sm font-semibold tracking-wide">
             <a href="{{ url_for('home') }}"
                 class="{% if request.url.path == url_for('home').path %}text-white relative after:absolute after:bottom-[-17px] after:left-0 after:w-full after:h-1 after:bg-white{% else %}text-white/70 hover:text-white{% endif %} transition-colors">Home</a>
@@ -45,6 +74,23 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+
+        if(mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                menuIconOpen.classList.toggle('hidden');
+                menuIconClose.classList.toggle('hidden');
+            });
+        }
+    });
+</script>
 {% endblock %}
 
 {% block footer %}

@@ -10,37 +10,61 @@ boxShadow: {
 {% endblock boxshadow %}
 
 {% block navbar %}
-<header class="bg-white border-b border-gray-100 relative z-20">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-5">
+<header class="bg-white border-b border-gray-100 relative z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 sm:gap-5">
             <img src="https://i.ibb.co/60C0LNMG/protection-services-transparent.png" alt="North-West University Logo"
-                class="w-20 h-auto mb-2" />
-            <div class="border-l border-gray-200 pl-4 text-left">
-                <h1 class="text-lg font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services
-                </h1>
-                <span class="text-xs font-bold text-orange-500 mt-1 capitalize tracking-widest block">System
-                    Administrator</span>
+                class="w-16 sm:w-20 h-auto" />
+            <div class="border-l border-gray-200 pl-3 sm:pl-4 text-left">
+                <h1 class="text-sm sm:text-lg font-extrabold text-nwu-purple tracking-tight leading-none">Protection Services</h1>
+                <span class="text-[10px] sm:text-xs font-bold text-orange-500 mt-1 capitalize tracking-widest block">System Administrator</span>
             </div>
         </div>
 
-        <div class="flex items-center gap-4">
-            <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-nwu-black tracking-tight">{{ user.staff_fname }} {{ user.staff_lname }}
-                </p>
+        <div class="flex items-center gap-2 sm:gap-4">
+            <div class="text-right hidden md:block">
+                <p class="text-sm font-bold text-nwu-black tracking-tight">{{ user.staff_fname }} {{ user.staff_lname }}</p>
                 <p class="text-xs font-medium text-nwu-turq">All Campuses</p>
             </div>
-            <a href="{{ url_for('logout') }}" class="ml-4 text-nwu-grey hover:text-red-500 transition-colors p-2" title="Logout">
+            <a href="{{ url_for('logout') }}" class="text-nwu-grey hover:text-red-500 transition-colors p-2 hidden md:block" title="Logout">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                    </path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                 </svg>
             </a>
+
+            <button id="admin-mobile-menu-btn" class="md:hidden text-nwu-black hover:text-nwu-purple focus:outline-none p-2 ml-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="admin-menu-icon-open">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="admin-menu-icon-close">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
     </div>
 </header>
 
-<nav class="bg-nwu-purple text-white shadow-md">
+<div id="admin-mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 shadow-md relative z-20">
+    <div class="px-4 pt-2 pb-6 space-y-2">
+        <div class="mb-4 pb-4 border-b border-gray-100 px-3">
+            <p class="text-sm font-bold text-nwu-black tracking-tight">{{ user.staff_fname }} {{ user.staff_lname }}</p>
+            <p class="text-xs font-medium text-nwu-turq">All Campuses</p>
+        </div>
+        <a href="{{ url_for('admin_dashboard') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path in [url_for('admin_dashboard').path, '/admin', '/admin/'] %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Dashboard</a>
+        <a href="{{ url_for('admin_inventory') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_inventory').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Inventory</a>
+        <a href="{{ url_for('admin_analytics') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_analytics').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Analytics</a>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+            <a href="{{ url_for('logout') }}" class="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize text-red-500 hover:bg-red-50">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Logout
+            </a>
+        </div>
+    </div>
+</div>
+
+<nav class="hidden md:block bg-nwu-purple text-white shadow-md">
     <div class="max-w-7xl mx-auto px-6 flex justify-center items-center h-12 overflow-x-auto hide-scrollbar">
         <div class="flex gap-8 text-xs font-bold tracking-widest capitalize whitespace-nowrap">
             <a href="{{ url_for('admin_dashboard') }}"
@@ -52,4 +76,21 @@ boxShadow: {
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('admin-mobile-menu-btn');
+        const menu = document.getElementById('admin-mobile-menu');
+        const openIcon = document.getElementById('admin-menu-icon-open');
+        const closeIcon = document.getElementById('admin-menu-icon-close');
+
+        if(btn) {
+            btn.addEventListener('click', function() {
+                menu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+        }
+    });
+</script>
 {% endblock %}
