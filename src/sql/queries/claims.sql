@@ -49,7 +49,13 @@ FROM claim
 JOIN found_item ON claim.item_num = found_item.item_num
 JOIN claimant ON claim.claimant_num = claimant.claimant_num
 WHERE found_item.campus_id = :campus_id
-AND (:search_text IS NULL OR found_item.item_name ILIKE :search_text OR claimant.claimant_name ILIKE :search_text)
+AND (:search_text IS NULL 
+    OR found_item.item_name ILIKE :search_text 
+    OR claimant.claimant_name ILIKE :search_text
+    OR CAST(claimant.claimant_num AS TEXT) ILIKE :search_text
+    OR CAST(found_item.item_num AS TEXT) ILIKE REPLACE(REPLACE(UPPER(:search_text), '#ITM-', ''), 'ITM-', '')
+    OR CAST(claim.claim_num AS TEXT) ILIKE REPLACE(REPLACE(UPPER(:search_text), '#CLM-', ''), 'CLM-', '')
+)
 AND (:year IS NULL OR EXTRACT(YEAR FROM claim.claim_date) = :year)
 AND (:month IS NULL OR EXTRACT(MONTH FROM claim.claim_date) = :month)
 ORDER BY claim.claim_date DESC
