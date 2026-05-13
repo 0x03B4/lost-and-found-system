@@ -675,3 +675,43 @@ def admin_analytics(request: Request, user: dict = Depends(verify_admin)):
         },
     }
     return templates.TemplateResponse(request, "admin/analytics.html", context)
+
+@app.get("/admin/categories")
+def admin_categories(request: Request, user: dict = Depends(verify_admin)):
+    categories = list(queries.get_all_categories_with_counts())
+    context = {
+        "user": user,
+        "categories": categories,
+    }
+    return templates.TemplateResponse(request, "admin/categories.html", context)
+
+@app.post("/admin/categories")
+def admin_categories_post(
+    request: Request,
+    user: dict = Depends(verify_admin),
+    category_name: str = Form(...),
+):
+    cleaned_name = category_name.strip()
+    if not cleaned_name:
+        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Category+name+cannot+be+empty", status_code=status.HTTP_302_FOUND)
+    
+    existing = queries.get_category_by_name(category_name=cleaned_name)
+    if existing:
+        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Category+already+exists", status_code=status.HTTP_302_FOUND)
+    
+    queries.insert_category(category_name=cleaned_name)
+    return RedirectResponse(url=f"{request.url_for('admin_categories')}?success=Category+created+successfully", status_code=status.HTTP_302_FOUND)
+
+@app.post("/admin/categories/delete")
+def admin_categories_delete(
+    request: Request,
+    user: dict = Depends(verify_admin),
+    category_id: int = Form(...),
+):
+    count = queries.count_items_by_category(category_id=category_id)
+    if count > 0:
+        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Cannot+delete+category+referenced+by+items", status_code=status.HTTP_302_FOUND)
+    
+    queries.delete_category(category_id=category_id)
+    return RedirectResponse(url=f"{request.url_for('admin_categories')}?success=Category+deleted+successfully", status_code=status.HTTP_302_FOUND)
+

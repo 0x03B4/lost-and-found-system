@@ -1,0 +1,109 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block title %}
+Manage Categories
+{% endblock title %}
+
+{% block content %}
+<main class="flex-grow max-w-5xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
+
+    {% if request.query_params.get('success') %}
+    <div
+        class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3 text-emerald-800 animate-fade-in">
+        <p class="text-xs font-bold">{{ request.query_params.get('success') }}</p>
+    </div>
+    {% endif %}
+
+    {% if request.query_params.get('error') %}
+    <div class="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 text-red-800 animate-fade-in">
+        <p class="text-xs font-bold">{{ request.query_params.get('error') }}</p>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+
+        <div
+            class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300 md:col-span-1">
+            <h3 class="text-lg font-bold text-nwu-black mb-4">Add Category</h3>
+            <form method="post" action="{{ url_for('admin_categories_post') }}" class="space-y-4">
+                <div>
+                    <input type="text" name="category_name" required maxlength="30"
+                        placeholder="e.g. Electronics, Clothing"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all font-medium">
+                    <span class="text-[10px] text-nwu-grey mt-1.5 block">Maximum 30 characters.</span>
+                </div>
+                <button type="submit"
+                    class="w-full bg-nwu-purple text-white font-bold py-3 px-4 rounded-xl hover:bg-purple-900 transition-colors text-xs tracking-wider shadow-sm">
+                    Create Category
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden md:col-span-2">
+            <div class="px-6 py-5 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+                <span class="text-[11px] font-bold text-nwu-purple px-2.5 py-1 rounded-full">{{
+                    categories|length }} Total</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                        class="bg-gray-50/60 border-b border-gray-100 text-[10px] font-bold text-nwu-grey tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4">Category Name</th>
+                            <th class="px-6 py-4 text-center">Items Logged</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for cat in categories %}
+                        <tr class="hover:bg-gray-50/40 transition-colors group">
+                            <td class="px-6 py-4 font-bold text-nwu-grey text-xs">#{{ cat.category_id }}</td>
+                            <td class="px-6 py-4 font-bold text-nwu-black">{{ cat.category_name }}</td>
+                            <td class="px-6 py-4 text-center">
+                                {% if cat.item_count > 0 %}
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold text-nwu-black">
+                                    {{ cat.item_count }}
+                                </span>
+                                {% else %}
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-nwu-black">
+                                    0
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <form method="post" action="{{ url_for('admin_categories_delete') }}"
+                                    class="inline-block"
+                                    onsubmit="return confirm('Are you sure you want to delete the category \'{{ cat.category_name }}\'?');">
+                                    <input type="hidden" name="category_id" value="{{ cat.category_id }}">
+                                    {% if cat.item_count > 0 %}
+                                    <button type="button" disabled title="Cannot delete category referenced by items"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 bg-gray-50 cursor-not-allowed border border-gray-100 transition-all">
+                                        Delete
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" title="Delete this category"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold text-red-600 hover:text-white hover:bg-red-600 transition-all border border-red-200 hover:border-transparent shadow-sm">
+                                        Delete
+                                    </button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-10 text-center text-nwu-grey font-medium text-xs">No
+                                categories configured.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock content %}
