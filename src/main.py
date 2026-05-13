@@ -471,12 +471,14 @@ def staff_claim_post(
     user: dict = Depends(get_current_user),
     item_num: int = Form(...),
     claimant_num: int = Form(...),
-    claimant_name: str = Form(...),
+    claimant_fname: str = Form(...),
+    claimant_lname: str = Form(...),
     claimant_email: str = Form(...),
 ):
     queries.upsert_claimant(
         claimant_num=claimant_num,
-        claimant_name=claimant_name,
+        claimant_fname=claimant_fname.strip(),
+        claimant_lname=claimant_lname.strip(),
         claimant_email=claimant_email,
     )
 

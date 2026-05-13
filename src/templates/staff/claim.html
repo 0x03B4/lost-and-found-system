@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    Claim
+Claim
 {% endblock title %}
 
 
@@ -30,7 +30,7 @@
 
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 border border-gray-100 p-6 rounded-2xl">
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="text-xs font-bold text-nwu-black mb-2 block">Student/Staff Number<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="claimant_num" placeholder="e.g. 54169178"
@@ -39,11 +39,17 @@
                         </div>
 
                         <div>
-                            <label class="text-xs font-bold text-nwu-black mb-2 block">Name<span
+                            <label class="text-xs font-bold text-nwu-black mb-2 block">First Name<span
                                     class="text-red-500">*</span></label>
-                            <input type="text" name="claimant_name" placeholder="e.g. Asonele"
-                                pattern="\S+"
-                                title="Name must be a single word with no spaces."
+                            <input type="text" name="claimant_fname" placeholder="e.g. Asonele"
+                                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
+                                required>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-nwu-black mb-2 block">Last Name<span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" name="claimant_lname" placeholder="e.g. Ralasi"
                                 class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all"
                                 required>
                         </div>
@@ -65,7 +71,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="text-xs font-bold text-nwu-grey mb-2 block">Item</label>
-                            <input type="text" value="#ITM-{{ item.item_num }} — {{ item.item_name }}"
+                            <input type="text" value="#ITM-{{ item.item_num }} - {{ item.item_name }}"
                                 class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-nwu-black font-semibold cursor-not-allowed"
                                 readonly>
                         </div>

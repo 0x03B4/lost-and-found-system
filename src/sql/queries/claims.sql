@@ -3,10 +3,11 @@ SELECT * FROM claimant
 WHERE claimant_num = :claimant_num;
 
 -- :name upsert_claimant :affected
-INSERT INTO claimant (claimant_num, claimant_name, claimant_email)
-VALUES (:claimant_num, :claimant_name, :claimant_email)
+INSERT INTO claimant (claimant_num, claimant_fname, claimant_lname, claimant_email)
+VALUES (:claimant_num, :claimant_fname, :claimant_lname, :claimant_email)
 ON CONFLICT (claimant_num) DO UPDATE
-SET claimant_name = EXCLUDED.claimant_name,
+SET claimant_fname = EXCLUDED.claimant_fname,
+    claimant_lname = EXCLUDED.claimant_lname,
     claimant_email = EXCLUDED.claimant_email;
 
 -- :name insert_claim :scalar
@@ -19,7 +20,7 @@ SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim
        found_item.item_name, found_item.item_description, found_item.item_status,
        category.category_name,
        staff_member.staff_fname, staff_member.staff_lname,
-       claimant.claimant_name, claimant.claimant_email
+       claimant.claimant_fname, claimant.claimant_lname, claimant.claimant_email
 FROM claim
 JOIN found_item ON claim.item_num = found_item.item_num
 JOIN category ON found_item.category_id = category.category_id
@@ -32,7 +33,7 @@ SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim
        found_item.item_name, found_item.item_description, found_item.item_status,
        category.category_name,
        staff_member.staff_fname, staff_member.staff_lname,
-       claimant.claimant_name, claimant.claimant_email
+       claimant.claimant_fname, claimant.claimant_lname, claimant.claimant_email
 FROM claim
 JOIN found_item ON claim.item_num = found_item.item_num
 JOIN category ON found_item.category_id = category.category_id
@@ -43,7 +44,7 @@ WHERE claim.item_num = :item_num;
 -- :name get_claims_by_campus :many
 SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim.claimant_num,
        found_item.item_name,
-       claimant.claimant_name,
+       claimant.claimant_fname, claimant.claimant_lname,
        COUNT(*) OVER() AS total_count
 FROM claim
 JOIN found_item ON claim.item_num = found_item.item_num
@@ -51,7 +52,9 @@ JOIN claimant ON claim.claimant_num = claimant.claimant_num
 WHERE found_item.campus_id = :campus_id
 AND (:search_text IS NULL 
     OR found_item.item_name ILIKE :search_text 
-    OR claimant.claimant_name ILIKE :search_text
+    OR claimant.claimant_fname ILIKE :search_text
+    OR claimant.claimant_lname ILIKE :search_text
+    OR (claimant.claimant_fname || ' ' || claimant.claimant_lname) ILIKE :search_text
     OR CAST(claimant.claimant_num AS TEXT) ILIKE :search_text
     OR CAST(found_item.item_num AS TEXT) ILIKE REPLACE(REPLACE(UPPER(:search_text), '#ITM-', ''), 'ITM-', '')
     OR CAST(claim.claim_num AS TEXT) ILIKE REPLACE(REPLACE(UPPER(:search_text), '#CLM-', ''), 'CLM-', '')

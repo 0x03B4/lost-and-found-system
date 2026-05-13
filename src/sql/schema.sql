@@ -69,7 +69,8 @@ CREATE TABLE found_item (
 
 CREATE TABLE claimant (
     claimant_num INTEGER PRIMARY KEY,
-    claimant_name VARCHAR(50) NOT NULL,
+    claimant_fname VARCHAR(50) NOT NULL,
+    claimant_lname VARCHAR(50) NOT NULL,
     claimant_email CITEXT UNIQUE NOT NULL,
 
     CONSTRAINT ck_claimant_claimant_num_range
