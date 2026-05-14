@@ -34,9 +34,9 @@ ORDER BY campus.campus_name;
 
 -- :name get_analytics_summary :one
 SELECT
-    COUNT(*) FILTER (WHERE item_status = 'in storage') AS in_storage,
-    COUNT(*) FILTER (WHERE item_status = 'claimed') AS claimed,
-    COUNT(*) FILTER (WHERE item_status = 'disposed') AS disposed
+    COALESCE(COUNT(*) FILTER (WHERE item_status = 'in storage'), 0) AS in_storage,
+    COALESCE(COUNT(*) FILTER (WHERE item_status = 'claimed'), 0) AS claimed,
+    COALESCE(COUNT(*) FILTER (WHERE item_status = 'disposed'), 0) AS disposed
 FROM found_item
 WHERE (:campus_id IS NULL OR campus_id = :campus_id)
 AND (:year IS NULL OR EXTRACT(YEAR FROM item_date_received) = :year)
@@ -56,7 +56,7 @@ LIMIT 1;
 -- :name get_category_distribution :many
 SELECT category.category_name,
        COUNT(*) AS item_count,
-       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 1) AS percentage
+       COALESCE(ROUND(COUNT(*) * 100.0 / NULLIF(SUM(COUNT(*)) OVER(), 0), 1), 0) AS percentage
 FROM found_item
 JOIN category ON found_item.category_id = category.category_id
 WHERE (:campus_id IS NULL OR found_item.campus_id = :campus_id)
@@ -69,7 +69,7 @@ ORDER BY item_count DESC;
 SELECT campus.campus_id,
        campus.campus_name,
        COUNT(found_item.item_num) AS item_count,
-       ROUND(COUNT(found_item.item_num) * 100.0 / NULLIF(SUM(COUNT(found_item.item_num)) OVER(), 0), 1) AS percentage
+       COALESCE(ROUND(COUNT(found_item.item_num) * 100.0 / NULLIF(SUM(COUNT(found_item.item_num)) OVER(), 0), 1), 0) AS percentage
 FROM campus
 LEFT JOIN found_item ON campus.campus_id = found_item.campus_id
 AND (:year IS NULL OR EXTRACT(YEAR FROM found_item.item_date_received) = :year)
@@ -84,10 +84,10 @@ SELECT
     EXTRACT(MONTH FROM found_item.item_date_received) AS trend_month,
     COUNT(*) AS items_received,
     COUNT(claim.claim_num) AS claims_made,
-    CASE
+    COALESCE(CASE
         WHEN COUNT(*) = 0 THEN 0
         ELSE ROUND(COUNT(claim.claim_num) * 100.0 / COUNT(*), 1)
-    END AS claim_rate
+    END, 0) AS claim_rate
 FROM found_item
 LEFT JOIN claim ON found_item.item_num = claim.item_num
 WHERE (:campus_id IS NULL OR found_item.campus_id = :campus_id)

@@ -72,19 +72,19 @@
             </div>
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">{{ summary.in_storage if summary else 0 }}</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.in_storage if summary and summary.in_storage is not none else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Items currently in storage</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">{{ summary.claimed if summary else 0 }}</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.claimed if summary and summary.claimed is not none else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">Processed Claims</p>
             </div>
 
             <div
                 class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300">
-                <h3 class="text-3xl font-black text-nwu-black">{{ summary.disposed if summary else 0 }}</h3>
+                <h3 class="text-3xl font-black text-nwu-black">{{ summary.disposed if summary and summary.disposed is not none else 0 }}</h3>
                 <p class="text-xs font-medium text-nwu-grey mt-1">
                     Disposed Items
                 </p>
