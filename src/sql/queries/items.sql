@@ -1,43 +1,28 @@
 -- :name get_item_by_num :one
-SELECT found_item.item_num, found_item.item_name, found_item.item_description,
-       found_item.item_date_received, found_item.item_status, found_item.item_image_url,
-       found_item.category_id, found_item.staff_num, found_item.campus_id,
-       category.category_name, campus.campus_name
-FROM found_item
-JOIN category ON found_item.category_id = category.category_id
-JOIN campus ON found_item.campus_id = campus.campus_id
-WHERE found_item.item_num = :item_num;
+SELECT *
+FROM v_item_details
+WHERE item_num = :item_num;
 
 -- :name get_items_by_campus_filtered :many
-SELECT found_item.item_num, found_item.item_name, found_item.item_description,
-       found_item.item_date_received, found_item.item_status, found_item.item_image_url,
-       found_item.category_id, found_item.staff_num, found_item.campus_id,
-       category.category_name, campus.campus_name,
+SELECT *,
        COUNT(*) OVER() AS total_count
-FROM found_item
-JOIN category ON found_item.category_id = category.category_id
-JOIN campus ON found_item.campus_id = campus.campus_id
-WHERE found_item.campus_id = :campus_id
-AND (:item_status IS NULL OR found_item.item_status = :item_status)
-AND (:category_id IS NULL OR found_item.category_id = :category_id)
-AND (:search_text IS NULL OR found_item.item_name ILIKE :search_text OR found_item.item_description ILIKE :search_text)
-ORDER BY found_item.item_date_received DESC
+FROM v_item_details
+WHERE campus_id = :campus_id
+AND (:item_status IS NULL OR item_status = :item_status)
+AND (:category_id IS NULL OR category_id = :category_id)
+AND (:search_text IS NULL OR item_name ILIKE :search_text OR item_description ILIKE :search_text)
+ORDER BY item_date_received DESC
 LIMIT :limit OFFSET :offset;
 
 -- :name get_admin_items_filtered :many
-SELECT found_item.item_num, found_item.item_name, found_item.item_description,
-       found_item.item_date_received, found_item.item_status, found_item.item_image_url,
-       found_item.category_id, found_item.staff_num, found_item.campus_id,
-       category.category_name, campus.campus_name,
+SELECT *,
        COUNT(*) OVER() AS total_count
-FROM found_item
-JOIN category ON found_item.category_id = category.category_id
-JOIN campus ON found_item.campus_id = campus.campus_id
-WHERE (:campus_id IS NULL OR found_item.campus_id = :campus_id)
-AND (:item_status IS NULL OR found_item.item_status = :item_status)
-AND (:category_id IS NULL OR found_item.category_id = :category_id)
-AND (:search_text IS NULL OR found_item.item_name ILIKE :search_text OR found_item.item_description ILIKE :search_text)
-ORDER BY found_item.item_date_received DESC
+FROM v_item_details
+WHERE (:campus_id IS NULL OR campus_id = :campus_id)
+AND (:item_status IS NULL OR item_status = :item_status)
+AND (:category_id IS NULL OR category_id = :category_id)
+AND (:search_text IS NULL OR item_name ILIKE :search_text OR item_description ILIKE :search_text)
+ORDER BY item_date_received DESC
 LIMIT :limit OFFSET :offset;
 
 -- :name insert_found_item :scalar

@@ -63,6 +63,7 @@ WHERE (:campus_id IS NULL OR found_item.campus_id = :campus_id)
 AND (:year IS NULL OR EXTRACT(YEAR FROM found_item.item_date_received) = :year)
 AND (:quarter IS NULL OR EXTRACT(QUARTER FROM found_item.item_date_received) = :quarter)
 GROUP BY category.category_name
+HAVING COUNT(*) > 0
 ORDER BY item_count DESC;
 
 -- :name get_campus_volume :many

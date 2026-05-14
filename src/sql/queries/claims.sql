@@ -16,30 +16,14 @@ VALUES (:claim_date, :item_num, :staff_num, :claimant_num)
 RETURNING claim_num;
 
 -- :name get_claim_by_num :one
-SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim.claimant_num,
-       found_item.item_name, found_item.item_description, found_item.item_status,
-       category.category_name,
-       staff_member.staff_fname, staff_member.staff_lname,
-       claimant.claimant_fname, claimant.claimant_lname, claimant.claimant_email
-FROM claim
-JOIN found_item ON claim.item_num = found_item.item_num
-JOIN category ON found_item.category_id = category.category_id
-JOIN staff_member ON claim.staff_num = staff_member.staff_num
-JOIN claimant ON claim.claimant_num = claimant.claimant_num
-WHERE claim.claim_num = :claim_num;
+SELECT *
+FROM v_claim_details
+WHERE claim_num = :claim_num;
 
 -- :name get_claim_by_item_num :one
-SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim.claimant_num,
-       found_item.item_name, found_item.item_description, found_item.item_status,
-       category.category_name,
-       staff_member.staff_fname, staff_member.staff_lname,
-       claimant.claimant_fname, claimant.claimant_lname, claimant.claimant_email
-FROM claim
-JOIN found_item ON claim.item_num = found_item.item_num
-JOIN category ON found_item.category_id = category.category_id
-JOIN staff_member ON claim.staff_num = staff_member.staff_num
-JOIN claimant ON claim.claimant_num = claimant.claimant_num
-WHERE claim.item_num = :item_num;
+SELECT *
+FROM v_claim_details
+WHERE item_num = :item_num;
 
 -- :name get_claims_by_campus :many
 SELECT claim.claim_num, claim.claim_date, claim.item_num, claim.staff_num, claim.claimant_num,
