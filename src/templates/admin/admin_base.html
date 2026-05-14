@@ -54,6 +54,7 @@ boxShadow: {
         <a href="{{ url_for('admin_inventory') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_inventory').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Inventory</a>
         <a href="{{ url_for('admin_analytics') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_analytics').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Analytics</a>
         <a href="{{ url_for('admin_categories') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_categories').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Categories</a>
+        <a href="{{ url_for('admin_staff') }}" class="block px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize {% if request.url.path == url_for('admin_staff').path %}text-nwu-purple bg-purple-50{% else %}text-nwu-black hover:bg-gray-50 hover:text-nwu-purple{% endif %}">Staff</a>
         <div class="mt-4 pt-4 border-t border-gray-200">
             <a href="{{ url_for('logout') }}" class="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold tracking-widest capitalize text-red-500 hover:bg-red-50">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,6 +77,8 @@ boxShadow: {
                 class="{% if request.url.path == url_for('admin_analytics').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Analytics</a>
             <a href="{{ url_for('admin_categories') }}"
                 class="{% if request.url.path == url_for('admin_categories').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Categories</a>
+            <a href="{{ url_for('admin_staff') }}"
+                class="{% if request.url.path == url_for('admin_staff').path %}text-white relative after:absolute after:bottom-[-14px] after:left-0 after:w-full after:h-1 after:bg-nwu-turq{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Staff</a>
         </div>
     </div>
 </nav>

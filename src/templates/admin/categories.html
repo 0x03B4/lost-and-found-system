@@ -7,16 +7,18 @@ Manage Categories
 {% block content %}
 <main class="flex-grow max-w-5xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
 
-    {% if request.query_params.get('success') %}
+    {% set success_msg = success or request.query_params.get('success') %}
+    {% if success_msg %}
     <div
         class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3 text-emerald-800 animate-fade-in">
-        <p class="text-xs font-bold">{{ request.query_params.get('success') }}</p>
+        <p class="text-xs font-bold">{{ success_msg }}</p>
     </div>
     {% endif %}
 
-    {% if request.query_params.get('error') %}
+    {% set error_msg = error or request.query_params.get('error') %}
+    {% if error_msg %}
     <div class="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 text-red-800 animate-fade-in">
-        <p class="text-xs font-bold">{{ request.query_params.get('error') }}</p>
+        <p class="text-xs font-bold">{{ error_msg }}</p>
     </div>
     {% endif %}
 

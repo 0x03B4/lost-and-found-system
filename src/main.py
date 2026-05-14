@@ -11,6 +11,7 @@ import os
 import math
 import re
 import secrets
+import urllib.parse
 from supabase import create_client
 
 
@@ -691,16 +692,27 @@ def admin_categories_post(
     user: dict = Depends(verify_admin),
     category_name: str = Form(...),
 ):
+    def render_cat_page(error_msg=None, success_msg=None):
+        categories = list(queries.get_all_categories_with_counts())
+        context = {
+            "request": request,
+            "user": user,
+            "categories": categories,
+            "error": error_msg,
+            "success": success_msg,
+        }
+        return templates.TemplateResponse(request, "admin/categories.html", context)
+
     cleaned_name = category_name.strip()
     if not cleaned_name:
-        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Category+name+cannot+be+empty", status_code=status.HTTP_302_FOUND)
+        return render_cat_page(error_msg="Category name cannot be empty")
     
     existing = queries.get_category_by_name(category_name=cleaned_name)
     if existing:
-        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Category+already+exists", status_code=status.HTTP_302_FOUND)
+        return render_cat_page(error_msg="Category already exists")
     
     queries.insert_category(category_name=cleaned_name)
-    return RedirectResponse(url=f"{request.url_for('admin_categories')}?success=Category+created+successfully", status_code=status.HTTP_302_FOUND)
+    return render_cat_page(success_msg="Category created successfully")
 
 @app.post("/admin/categories/delete")
 def admin_categories_delete(
@@ -708,10 +720,137 @@ def admin_categories_delete(
     user: dict = Depends(verify_admin),
     category_id: int = Form(...),
 ):
+    def render_cat_page(error_msg=None, success_msg=None):
+        categories = list(queries.get_all_categories_with_counts())
+        context = {
+            "request": request,
+            "user": user,
+            "categories": categories,
+            "error": error_msg,
+            "success": success_msg,
+        }
+        return templates.TemplateResponse(request, "admin/categories.html", context)
+
     count = queries.count_items_by_category(category_id=category_id)
     if count > 0:
-        return RedirectResponse(url=f"{request.url_for('admin_categories')}?error=Cannot+delete+category+referenced+by+items", status_code=status.HTTP_302_FOUND)
+        return render_cat_page(error_msg="Cannot delete category referenced by items")
     
     queries.delete_category(category_id=category_id)
-    return RedirectResponse(url=f"{request.url_for('admin_categories')}?success=Category+deleted+successfully", status_code=status.HTTP_302_FOUND)
+    return render_cat_page(success_msg="Category deleted successfully")
+
+@app.get("/admin/staff")
+def admin_staff(request: Request, user: dict = Depends(verify_admin)):
+    staff_list = list(queries.get_all_staff_details())
+    campuses = list(queries.get_all_campuses())
+    context = {
+        "user": user,
+        "staff_list": staff_list,
+        "campuses": campuses,
+    }
+    return templates.TemplateResponse(request, "admin/staff.html", context)
+
+@app.post("/admin/staff")
+async def admin_staff_post(
+    request: Request,
+    user: dict = Depends(verify_admin),
+):
+    form_data = await request.form()
+
+    def render_staff_page(error_msg=None, success_msg=None):
+        staff_list = list(queries.get_all_staff_details())
+        campuses = list(queries.get_all_campuses())
+        context = {
+            "request": request,
+            "user": user,
+            "staff_list": staff_list,
+            "campuses": campuses,
+            "error": error_msg,
+            "success": success_msg,
+        }
+        return templates.TemplateResponse(request, "admin/staff.html", context)
+
+    try:
+        staff_num = int(form_data.get("staff_num"))
+    except (ValueError, TypeError):
+        return render_staff_page(error_msg="Invalid staff number")
+    
+    staff_fname = form_data.get("staff_fname", "").strip()
+    staff_lname = form_data.get("staff_lname", "").strip()
+    role_id = form_data.get("role_id", "").strip()
+    campus_id = form_data.get("campus_id", "").strip()
+
+    if not staff_fname or not staff_lname or not role_id:
+        return render_staff_page(error_msg="Missing required fields")
+
+    existing = queries.get_staff_by_num(staff_num=staff_num)
+    if existing:
+        return render_staff_page(error_msg="Account with this staff number already exists")
+
+    staff_email = f"{staff_num}@nwu.ac.za"
+
+    if role_id == "STAFF" and not campus_id:
+        return render_staff_page(error_msg="STAFF role requires assignment to a campus")
+
+    new_password = secrets.token_urlsafe(10)
+    password_hash = pwd_context.hash(new_password)
+
+    try:
+        queries.insert_staff(
+            staff_num=staff_num,
+            staff_fname=staff_fname,
+            staff_lname=staff_lname,
+            staff_email=staff_email.lower(),
+            staff_password_hash=password_hash,
+            role_id=role_id,
+        )
+    except Exception as e:
+        return render_staff_page(error_msg="Could not create account. Database error.")
+
+    if role_id == "STAFF":
+        queries.insert_campus_assignment(staff_num=staff_num, campus_id=campus_id)
+
+    print("\n" + "="*60)
+    print(f"Subject: NWU Protection Services Account Provisioned")
+    print(f"Dear {staff_fname} {staff_lname},")
+    print(f"An account has been created for you on the Lost and Found System.")
+    print(f"Your login credentials are:")
+    print(f"Staff Number: {staff_num}")
+    print(f"Password: {new_password}")
+    print(f"Role: {role_id}")
+    print("="*60 + "\n")
+
+    return render_staff_page(success_msg=f"Staff account #{staff_num} successfully created.")
+
+@app.post("/admin/staff/update-campus")
+def admin_staff_update_campus(
+    request: Request,
+    user: dict = Depends(verify_admin),
+    staff_num: int = Form(...),
+    campus_id: str = Form(...),
+):
+    def render_staff_page(error_msg=None, success_msg=None):
+        staff_list = list(queries.get_all_staff_details())
+        campuses = list(queries.get_all_campuses())
+        context = {
+            "request": request,
+            "user": user,
+            "staff_list": staff_list,
+            "campuses": campuses,
+            "error": error_msg,
+            "success": success_msg,
+        }
+        return templates.TemplateResponse(request, "admin/staff.html", context)
+
+    target_staff = queries.get_staff_by_num(staff_num=staff_num)
+    if not target_staff:
+        return render_staff_page(error_msg="Personnel account not found")
+
+    if target_staff.get("role_id") == "ADMIN":
+        return render_staff_page(error_msg="Administrators possess global scope. Campus reassignment inapplicable.")
+
+    queries.delete_campus_assignments(staff_num=staff_num)
+    queries.insert_campus_assignment(staff_num=staff_num, campus_id=campus_id)
+
+    return render_staff_page(success_msg="Personnel campus assignment successfully updated")
+
 

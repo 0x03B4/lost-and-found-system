@@ -1,0 +1,201 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block title %}
+Manage Staff Accounts
+{% endblock title %}
+
+{% block content %}
+<main class="flex-grow max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full space-y-8">
+
+    <!-- Alerts / Messages -->
+    {% set success_msg = success or request.query_params.get('success') %}
+    {% if success_msg %}
+    <div
+        class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3 text-emerald-900 animate-fade-in shadow-sm">
+        <p class="text-xs font-bold leading-relaxed">{{ success_msg }}</p>
+    </div>
+    {% endif %}
+
+    {% set error_msg = error or request.query_params.get('error') %}
+    {% if error_msg %}
+    <div
+        class="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 text-red-900 animate-fade-in shadow-sm">
+        <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="text-xs font-bold">{{ error_msg }}</p>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Add Staff Form -->
+        <div
+            class="bg-white border border-gray-100 rounded-3xl p-6 shadow-soft hover:shadow-modern transition-all duration-300 lg:col-span-1">
+
+            <form method="post" action="{{ url_for('admin_staff_post') }}" class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-1.5 block">Staff
+                        Number</label>
+                    <input type="number" name="staff_num" required min="1" max="99999999" placeholder="e.g. 12345678"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all font-bold text-nwu-black">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-1.5 block">First
+                            Name</label>
+                        <input type="text" name="staff_fname" required maxlength="50" placeholder="First Name"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all font-medium">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-1.5 block">Last
+                            Name</label>
+                        <input type="text" name="staff_lname" required maxlength="50" placeholder="Last Name"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple transition-all font-medium">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-1.5 block">System
+                        Role</label>
+                    <select name="role_id" id="role-selector" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer text-nwu-black">
+                        <option value="STAFF">Staff Member</option>
+                        <option value="ADMIN">Administrator</option>
+                    </select>
+                </div>
+
+                <div id="campus-assignment-section" class="pt-2 border-t border-gray-50">
+                    <label class="text-[10px] font-bold text-nwu-grey capitalize tracking-widest mb-2 block">Assigned
+                        Campus</label>
+                    <select name="campus_id" id="campus-selector"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-nwu-purple/20 focus:border-nwu-purple cursor-pointer text-nwu-black">
+                        {% for campus in campuses %}
+                        <option value="{{ campus.campus_id }}">{{ campus.campus_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit"
+                        class="w-full bg-nwu-purple text-white font-bold py-3 px-4 rounded-xl hover:bg-purple-900 transition-colors text-xs tracking-wider shadow-sm">
+                        Create Account
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-3xl shadow-soft overflow-hidden lg:col-span-2">
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                        class="bg-gray-50/60 border-b border-gray-100 text-[10px] font-bold text-nwu-grey tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Personnel</th>
+                            <th class="px-6 py-4">Role</th>
+                            <th class="px-6 py-4">Campus Assignment</th>
+                            <th class="px-6 py-4 text-center">System Activity</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for staff in staff_list %}
+                        <tr class="hover:bg-gray-50/40 transition-colors group">
+                            <td class="px-6 py-4">
+                                <p class="font-bold text-nwu-black text-xs">{{ staff.staff_fname }} {{ staff.staff_lname
+                                    }}</p>
+                                <p class="text-[10px] font-medium text-nwu-grey mt-0.5">{{ staff.staff_email }}</p>
+                                <span class="text-[9px] font-bold text-nwu-grey/70 block mt-0.5">#{{ staff.staff_num
+                                    }}</span>
+                            </td>
+
+                            <td class="px-6 py-4">
+                                {% if staff.role_id == 'ADMIN' %}
+                                <span
+                                    class="px-2 py-0.5 text-nwu-black font-black text-[9px] tracking-widest">Admin</span>
+                                {% else %}
+                                <span
+                                    class="px-2 py-0.5 text-nwu-black font-bold text-[9px] tracking-widest">Staff</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="px-6 py-4 font-bold text-nwu-black text-xs">
+                                {% if staff.role_id == 'ADMIN' %}
+                                <span class="text-nwu-black">All Campuses</span>
+                                {% else %}
+                                {{ staff.campuses }}
+                                {% endif %}
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                <div class="inline-flex gap-2">
+                                    <span
+                                        class="text-[10px] font-bold px-2 py-0.5 rounded-full {% if staff.item_count > 0 %}bg-gray-100 text-nwu-black{% else %}bg-gray-50 text-gray-400{% endif %}"
+                                        title="Items Logged">
+                                        {{ staff.item_count }} items
+                                    </span>
+                                    <span
+                                        class="text-[10px] font-bold px-2 py-0.5 rounded-full {% if staff.claim_count > 0 %}bg-gray-100 text-nwu-black{% else %}bg-gray-50 text-gray-400{% endif %}"
+                                        title="Claims Processed">
+                                        {{ staff.claim_count }} claims
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-right">
+                                {% if staff.role_id == 'STAFF' %}
+                                <form method="post" action="{{ url_for('admin_staff_update_campus') }}"
+                                    class="flex items-center justify-end gap-1.5">
+                                    <input type="hidden" name="staff_num" value="{{ staff.staff_num }}">
+                                    <select name="campus_id"
+                                        class="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-[11px] font-bold text-nwu-black focus:outline-none focus:border-nwu-purple">
+                                        {% for campus in campuses %}
+                                        <option value="{{ campus.campus_id }}" {% if campus.campus_name in
+                                            staff.campuses %}selected{% endif %}>{{ campus.campus_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" title="Update Campus"
+                                        class="px-2 py-1 rounded-lg text-[11px] font-bold text-nwu-purple hover:bg-purple-50 border border-purple-100 transition-all">
+                                        Update
+                                    </button>
+                                </form>
+                                {% else %}
+                                <span></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-10 text-center text-nwu-grey font-medium text-xs">No user
+                                accounts initialized.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelector = document.getElementById('role-selector');
+        const campusSection = document.getElementById('campus-assignment-section');
+
+        if (roleSelector && campusSection) {
+            roleSelector.addEventListener('change', function () {
+                if (this.value === 'ADMIN') {
+                    campusSection.style.display = 'none';
+                } else {
+                    campusSection.style.display = 'block';
+                }
+            });
+            roleSelector.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+{% endblock content %}
