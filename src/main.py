@@ -61,6 +61,11 @@ def verify_admin(user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
     return user
 
+def verify_staff(user: dict = Depends(get_current_user)):
+    if user.get("role_id") != "STAFF":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+    return user
+
 
 templates = Jinja2Templates(directory="src/templates")
 
@@ -211,6 +216,18 @@ def contact(request: Request):
 
 @app.get("/login")
 def login(request: Request):
+    token = request.cookies.get("access_token")
+    if token:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            role = payload.get("role")
+            if role == "ADMIN":
+                return RedirectResponse(url="/admin/dashboard")
+            elif role == "STAFF":
+                return RedirectResponse(url="/staff/dashboard")
+        except jwt.PyJWTError:
+            pass
+
     context = {
         "campuses": list(queries.get_all_campuses()),
     }
@@ -308,7 +325,7 @@ def reset_post(request: Request, staff_num: str = Form(...)):
 
 @app.get("/staff")
 @app.get("/staff/dashboard")
-def staff_dashboard(request: Request, user: dict = Depends(get_current_user)):
+def staff_dashboard(request: Request, user: dict = Depends(verify_staff)):
     campus_id = user["campus_id"]
     staff_num = user["staff_num"]
 
@@ -338,7 +355,7 @@ def staff_dashboard(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse(request, "staff/dashboard.html", context)
 
 @app.get("/staff/inventory")
-def staff_inventory(request: Request, user: dict = Depends(get_current_user)):
+def staff_inventory(request: Request, user: dict = Depends(verify_staff)):
     campus_id = user["campus_id"]
 
     query_search = request.query_params.get("search_text")
@@ -386,7 +403,7 @@ def staff_inventory(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse(request, "staff/inventory.html", context)
 
 @app.get("/staff/log-item")
-def staff_log_item(request: Request, user: dict = Depends(get_current_user)):
+def staff_log_item(request: Request, user: dict = Depends(verify_staff)):
     item_num = request.query_params.get("item_num")
     item = None
     if item_num:
@@ -401,7 +418,7 @@ def staff_log_item(request: Request, user: dict = Depends(get_current_user)):
 @app.post("/staff/log-item")
 async def staff_log_item_post(
     request: Request,
-    user: dict = Depends(get_current_user),
+    user: dict = Depends(verify_staff),
     item_name: str = Form(...),
     description: str = Form(...),
     category_id: int = Form(...),
@@ -444,14 +461,14 @@ async def staff_log_item_post(
 @app.post("/staff/dispose")
 def staff_dispose(
     request: Request,
-    user: dict = Depends(get_current_user),
+    user: dict = Depends(verify_staff),
     item_num: int = Form(...),
 ):
     queries.update_item_status(item_num=item_num, item_status="disposed")
     return RedirectResponse(url="/staff/inventory", status_code=status.HTTP_302_FOUND)
 
 @app.get("/staff/claim")
-def staff_claim(request: Request, user: dict = Depends(get_current_user)):
+def staff_claim(request: Request, user: dict = Depends(verify_staff)):
     item_num = request.query_params.get("item_num")
     if not item_num:
         return RedirectResponse(url="/staff/inventory", status_code=status.HTTP_302_FOUND)
@@ -469,7 +486,7 @@ def staff_claim(request: Request, user: dict = Depends(get_current_user)):
 @app.post("/staff/claim")
 def staff_claim_post(
     request: Request,
-    user: dict = Depends(get_current_user),
+    user: dict = Depends(verify_staff),
     item_num: int = Form(...),
     claimant_num: int = Form(...),
     claimant_fname: str = Form(...),
@@ -495,7 +512,7 @@ def staff_claim_post(
     return RedirectResponse(url=f"/staff/view-claim?claim_num={claim_num}", status_code=status.HTTP_302_FOUND)
 
 @app.get("/staff/claims")
-def staff_claim_records(request: Request, user: dict = Depends(get_current_user)):
+def staff_claim_records(request: Request, user: dict = Depends(verify_staff)):
     campus_id = user["campus_id"]
 
     query_search = request.query_params.get("search_text")
@@ -541,7 +558,7 @@ def staff_claim_records(request: Request, user: dict = Depends(get_current_user)
     return templates.TemplateResponse(request, "staff/claim_records.html", context)
 
 @app.get("/staff/view-claim")
-def staff_view_claim(request: Request, user: dict = Depends(get_current_user)):
+def staff_view_claim(request: Request, user: dict = Depends(verify_staff)):
     claim_num = request.query_params.get("claim_num")
     item_num = request.query_params.get("item_num")
 
